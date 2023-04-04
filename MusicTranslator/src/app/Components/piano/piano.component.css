@@ -1,0 +1,52 @@
+.piano {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    height: 250px;
+    margin-top: 50px;
+  }
+  
+  .octave {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    width: 300px;
+  }
+  
+  .key {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 20px;
+    height: 130px;
+    border: 1px solid black;
+    background-color: white;
+    position: relative;
+  }
+  
+  .key.white {
+    width: 30px;
+    margin-right: -1px;
+  }
+  
+  .key.black {
+    width: 18px;
+    height: 80px;
+    background-color: black;
+    z-index: 1;
+    top: 0;
+    left: -8px;
+  }
+  
+  .key.active {
+    background-color: #ff0;
+  }
+
+  .note {
+    font-size: 10px;
+    margin-top: 5px;
+    color: black;
+  }

@@ -1,0 +1,32 @@
+.piano-key {
+    width: 28px;
+    height: 100%;
+    background-color: #fff;
+    margin-right: 4px;
+    position: relative;
+    border-radius: 5px;
+}
+
+.piano-key-sharp {
+    width: 28px;
+    height: 60%;
+    background-color: #000;
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: -5px;
+    z-index: 9999;
+    position: relative;
+}
+
+.active {
+    background-color: #ADADAD;
+}
+
+.piano-key-label {
+    position: absolute;
+    bottom: 5px;
+    left: 7px;
+    right: 0px;
+    font-size: 10px;
+    color: #A0A0A0;
+}

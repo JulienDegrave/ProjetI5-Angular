@@ -1,0 +1,7 @@
+<div class="piano-key" 
+    (mousedown)="onPianoKeyDown($event)" (mouseup)="onPianoKeyUp($event)"
+    [ngClass]="[(sharpKey ? 'piano-key-sharp' : ''), (isActive ? 'active' : '')]">
+    <div class="piano-key-label">
+        {{ keyName }}
+    </div>
+</div>
