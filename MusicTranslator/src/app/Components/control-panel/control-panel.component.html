@@ -1,0 +1,11 @@
+<div class="control-panel">
+    <button class="record-btn start-btn" (click)="recordBtnClicked()"  [ngClass]="{'disabled': isRecordStarted}">Start Record</button>
+    <button class="record-btn stop-btn" (click)="stopRecordBtnClicked()" [ngClass]="{'disabled': !isRecordStarted}">Stop Record</button>
+    <select class="select-dropdown">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+    <button class="play-btn">Play</button>
+    <button class="download-btn">Download</button>
+  </div>

@@ -14,8 +14,14 @@ public class Note {
     private String note;
     private Double time;
 
+    public Note(String n, Double t)
+    {
+        this.note = n;
+        this.time = t;
 
-    public Note() {
+    }
+    public Note()
+    {
     }
 
     public Long getId() {

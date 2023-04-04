@@ -45,25 +45,18 @@ public class test {
     @GetMapping("/write")
     private String write()
     {
-        Note n = new Note();
-        n.setNote("D3");
-        n.setTime(5.77);
-        Note n2 = new Note();
-        n2.setNote("A#3");
-        n2.setTime(7.17);
-        Note n3 = new Note();
-        n3.setNote("E3");
-        n3.setTime(8.01 );
+        Note n1 = new Note("D3", 5.77);
+        Note n2 = new Note("A#3", 7.17);
+        Note n3 = new Note("E3", 17.17);
+        Note n4 = new Note();
 
         Music myMusic = new Music();
         myMusic.setName("Super musique");
         myMusic.setDuration(20);
-        myMusic.addNote(n);
+        myMusic.addNote(n1);
         myMusic.addNote(n2);
         myMusic.addNote(n3);
-
-
-        //n.setMusic(myMusic);
+        myMusic.addNote(n4);
 
         musicService.save(myMusic);// associer la note à l'objet "Music" sauvegardé précédemment
         //noteService.save(n); // sauvegarder l'objet "Note" après l'objet "Music"

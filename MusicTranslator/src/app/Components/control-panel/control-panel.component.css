@@ -1,0 +1,56 @@
+
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--test);
+  }
+
+  .record-btn {
+    margin: 15px 0;
+    width: 350px;
+    height: 80px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #007bff;
+    cursor: pointer;
+  }
+
+  .record-btn.disabled {
+    opacity: 0.5; /* Réduire l'opacité du bouton */
+    pointer-events: none; /* Empêcher les interactions utilisateur avec le bouton */
+    cursor: not-allowed; /* Changer le curseur de la souris pour indiquer que le bouton est désactivé */
+  }
+  
+  .select-dropdown {
+    margin: 20px 20px 0;
+    margin-top: 200px;
+    width: 350px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    font-size: 20px;
+  }
+  
+  .play-btn,
+  .download-btn {
+    margin: 20px 0;
+    width: 350px;
+    height: 80px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #28a745;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .download-btn {
+    margin-top: 10px;
+  }

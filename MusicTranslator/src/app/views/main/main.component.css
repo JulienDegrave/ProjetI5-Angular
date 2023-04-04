@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  flex: 0 0 20%;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border: 1px solid #3f1f1f;
+  width: 500px;
+}
+
+.right-panel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.right-panel app-piano {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.right-panel app-harmo {
+  flex: 1;
+}

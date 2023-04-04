@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { RecordService } from 'src/app/services/piano/record.service';
 import { PianoPlayService } from '../../services/piano.play.service';
 
 // A single piano key which is able to be played via the mouse or using the keys
@@ -18,8 +19,9 @@ export class PianoKeyComponent implements OnInit
 
   isActive: boolean = false;
   noteSound = null as any;
+  startPlayTime : number = 0;
 
-  constructor(private pianoService: PianoPlayService) { }
+  constructor(private pianoService: PianoPlayService, private recordService: RecordService) { }
 
   ngOnInit() { 
     this.pianoService.registerPianoKey(this);
@@ -31,18 +33,35 @@ export class PianoKeyComponent implements OnInit
     this.noteSound.src = this.pianoSoundUrl;
     this.noteSound.load();
   }
-
-  onPianoKeyDown(event: Event) 
+  
+  onPianoKeyClicked(event: Event) 
   {
     if (event) event.preventDefault();
+    this.setKeyDown();
+  }
 
-    console.log(this.noteSound.src)
+  setKeyDown()
+  {
     if (this.noteSound) this.noteSound.play();
     this.isActive = true;
+    this.startPlayTime = Date.now();
+
   }
 
-  onPianoKeyUp(event: Event) {
+  onPianoKeyReleased(event: Event) {
     if (event) event.preventDefault();
+    this.setKeyUp()
+  } 
+
+  setKeyUp()
+  {
     this.isActive = false;
+    if(this.recordService.isRec())
+    {
+      let noteDuration = (Date.now() - this.startPlayTime) / 1000;
+      this.recordService.pushNote( this.keyName, noteDuration)
+    }
   }
+
+  
 }
