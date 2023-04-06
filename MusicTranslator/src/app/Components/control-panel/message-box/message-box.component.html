@@ -1,0 +1,10 @@
+<form class="message-box">
+    <mat-form-field>
+      <mat-label>Please enter your name:</mat-label>
+      <input matInput  type="text" [formControl]="recordName">
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="recordName">Ok</button>
+    </div>
+</form>
+  

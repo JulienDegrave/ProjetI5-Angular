@@ -1,19 +1,21 @@
 package com.example.TP_DEV_WEB_BACK.controllers;
 
-import com.example.TP_DEV_WEB_BACK.models.Music;
-import com.example.TP_DEV_WEB_BACK.models.Note;
+import com.example.TP_DEV_WEB_BACK.models.Record;
+import com.example.TP_DEV_WEB_BACK.models.RecordItem;
 import com.example.TP_DEV_WEB_BACK.services.MusicService;
 import com.example.TP_DEV_WEB_BACK.services.NoteService;
-import com.example.TP_DEV_WEB_BACK.services.NoteServiceImpl;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import net.minidev.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class test {
 
     MusicService musicService;
@@ -26,9 +28,16 @@ public class test {
     }
 
     @GetMapping("/hello")
-    private String hello()
+    private ResponseEntity<String> hello()
     {
-        return "<h1>Hello world !</h1>";
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info("Received hello:");
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.TEXT_PLAIN);
+
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body("Hello world !");
     }
 
     @GetMapping("/bulbOn")
@@ -42,37 +51,44 @@ public class test {
     {
         return "Off";
     }
-    @GetMapping("/write")
-    private String write()
+    @PostMapping("/write")
+    private ResponseEntity<String> write(@RequestBody Record rc)
     {
-        Note n1 = new Note("D3", 5.77);
-        Note n2 = new Note("A#3", 7.17);
-        Note n3 = new Note("E3", 17.17);
-        Note n4 = new Note();
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info("Received write:");
+        logger.info(rc.getTimeSlot().toString());
+        logger.info(String.valueOf(rc.getNotes().get("1")));
 
-        Music myMusic = new Music();
-        myMusic.setName("Super musique");
-        myMusic.setDuration(20);
-        myMusic.addNote(n1);
-        myMusic.addNote(n2);
-        myMusic.addNote(n3);
-        myMusic.addNote(n4);
+        musicService.save(rc);// associer la note à l'objet "Music" sauvegardé précédemment
 
-        musicService.save(myMusic);// associer la note à l'objet "Music" sauvegardé précédemment
-        //noteService.save(n); // sauvegarder l'objet "Note" après l'objet "Music"
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        return "Music written";
+        JSONObject response = new JSONObject();
+        response.put("message", "Music written");
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(response.toJSONString());
     }
 
     @GetMapping("/getMusic")
-    private Music getMusic(@RequestParam Integer id)
+    private Record getMusic(@RequestParam String name)
     {
-        return musicService.getById(Long.valueOf(id));
+        return musicService.getByName(name);
     }
 
-    @GetMapping("/getAllMusics")
-    private List<Music> getAllMusics()
+    @GetMapping("/getAllRecords")
+    private List<Record> getAllRecords()
     {
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info("getAllRecords :");
         return musicService.getAllMusics();
+    }
+    @PostMapping("/records")
+    public void addRecord(@RequestBody java.lang.Record record)
+    {
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info("Received record:");
+        logger.info("Received record:");
     }
 }

@@ -1,12 +1,11 @@
 package com.example.TP_DEV_WEB_BACK.services;
-import com.example.TP_DEV_WEB_BACK.models.Music;
+import com.example.TP_DEV_WEB_BACK.models.Record;
 import java.util.List;
 
 public interface MusicService
 {
-    void save(Music song);
-    Music getById(Long id);
+    void save(Record song);
+    Record getByName(String name);
 
-    List<Music> getAllMusics();
-
+    List<Record> getAllMusics();
 }

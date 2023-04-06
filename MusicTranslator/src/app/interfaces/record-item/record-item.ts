@@ -1,4 +1,5 @@
 export interface RecordItem {
-    key: string
+    id:number,
+    note: string
     timeout: number
 }

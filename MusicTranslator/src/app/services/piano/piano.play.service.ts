@@ -1,7 +1,7 @@
-import { PianoKeyComponent } from '../Components/piano-key/piano-key.component';
+import { PianoKeyComponent } from '../../Components/piano-key/piano-key.component';
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common'; 
-import { Record } from '../interfaces/record/record';
+import { Record } from '../../interfaces/record/record';
  
 @Injectable()
 export class PianoPlayService { 
@@ -9,6 +9,7 @@ export class PianoPlayService {
  
     startKeycode = 49;
     endKeycode = 57;
+    intervalId : any;
 
     notesKeysMap : Map<number, number> = new Map<number,number>();
 
@@ -75,19 +76,30 @@ export class PianoPlayService {
     playRecord(record:Record)
     {
         console.log("PLAYYYYY")
+        console.log(record)
         let max = Math.max(...record.notes.keys())
         let counter = 0.0
-        setInterval(() => {
-            console.log(counter / 1000)
+        this.intervalId = setInterval(() => {
+
+            // console.log(counter / 1000)
+            if(counter > 15000) clearInterval(this.intervalId);
+
             if(record.notes.has(counter / 1000)) {
-                this.pianoKeys.filter(key => key.note == record.notes.get(counter)?.key).forEach(note => {
-                    
-                    console.log("play " + note.keyName)
-                    note.setKeyDown()
-                    setTimeout(note.setKeyUp, record.notes.get(counter)?.timeout)
-                })
+                let currentNote = record.notes.get(counter/1000);
+                for(let i = 0 ; i < this.pianoKeys.length ; i++)
+                {
+                    if(currentNote?.note == this.pianoKeys.at(i)?.keyName)
+                    {
+                        // console.log(Date.now() + " |play " + currentNote?.key)
+                        this.pianoKeys.at(i)?.setKeyDown()
+                        setTimeout( () => { 
+                            // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
+                            this.pianoKeys.at(i)?.setKeyUp()
+                        }, currentNote?.timeout)
+                    }
+                }
             }
-            counter += 25
+            counter += record.timeSlot * 1000
         }, record.timeSlot*1000)
     }
 }

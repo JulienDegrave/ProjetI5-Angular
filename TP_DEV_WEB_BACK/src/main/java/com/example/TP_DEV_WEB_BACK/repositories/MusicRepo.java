@@ -1,9 +1,11 @@
 package com.example.TP_DEV_WEB_BACK.repositories;
 
-import com.example.TP_DEV_WEB_BACK.models.Music;
+import com.example.TP_DEV_WEB_BACK.models.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MusicRepo extends JpaRepository<Music, Long>
-{
+import java.util.List;
 
+public interface MusicRepo extends JpaRepository<Record, Long>
+{
+    public Record findByName(String name);
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { RecordService } from 'src/app/services/piano/record.service';
-import { PianoPlayService } from '../../services/piano.play.service';
+import { PianoPlayService } from '../../services/piano/piano.play.service';
 
 // A single piano key which is able to be played via the mouse or using the keys
 @Component({
@@ -29,9 +29,6 @@ export class PianoKeyComponent implements OnInit
  
   ngAfterViewChecked() 
   {
-    this.noteSound = new Audio();
-    this.noteSound.src = this.pianoSoundUrl;
-    this.noteSound.load();
   }
   
   onPianoKeyClicked(event: Event) 
@@ -42,7 +39,16 @@ export class PianoKeyComponent implements OnInit
 
   setKeyDown()
   {
-    if (this.noteSound) this.noteSound.play();
+    console.log("ngAfterViewChecked")
+    this.noteSound = new Audio();
+    this.noteSound.src = this.pianoSoundUrl;
+    this.noteSound.load();
+    console.log("setKeyDown")
+    if (this.noteSound)
+    {
+      console.log(" in if")
+      this.noteSound.play();
+    } 
     this.isActive = true;
     this.startPlayTime = Date.now();
 
