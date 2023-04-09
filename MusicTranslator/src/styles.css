@@ -1,1 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
+/* Add application styles & imports to this file!  #363636, #b82b21, #62aaa7, #f6f6f6, #f6f0e9 */ 
+
+body{  
+    overflow-x: hidden;
+  height: 100% ;
+  background-color: #020202 !important;
+}
+.control-pa{
+    box-shadow: #2f435e, #44566c, #ececec, #4b5e65, #201b22;
+  }
+label{
+  color: #fff;
+  font-weight: 700;
+}
+
+.auth-card{
+    background: #c31432; 
+    background: -webkit-linear-gradient(to right, #240b36, #c31432); 
+    background: linear-gradient(to right, #410b0b, #c38c14); 
+    border-radius: 5px;
+    box-shadow: 0px 0px 30px #f7f7f7;
+}  
+.btn-my{
+    background-color: #4E598C;
+    color: #fff;
+}
+.text-right.forget-pass a{
+    font-size: 12px;
+    color: #d39e00;
+    text-decoration: none;
+}
+.sign-up{
+    color: #fff;
+}
+.sign-up a{
+    color: #d39e00;
+    font-weight: 600;
+    text-decoration: none;
+}
+  
+.user-image{
+    height: 70px;
+}
+  
+
+.auth-avatar{
+    text-align: center;
+    margin-top: -50px;
+}
+.auth{
+    margin-top: 35px;
+    border: none;
+    border-radius: 6px;
+}

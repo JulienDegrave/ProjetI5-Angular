@@ -1,9 +1,16 @@
 
-<div class="container">
-  <div class="left-panel">
-    <app-control-panel></app-control-panel>
-  </div>
-  <div class="right-panel">
-    <app-piano></app-piano>
+
+
+<div *ngIf="isConnected;else contenu_pas_bon">
+  <div class="container">
+    <div class="left-panel">
+      <app-control-panel></app-control-panel>
+    </div>
+    <div class="right-panel">
+      <app-piano></app-piano>
+    </div>
   </div>
 </div>
+<ng-template #contenu_pas_bon> 
+  <app-login></app-login>
+</ng-template>

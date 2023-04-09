@@ -1,17 +1,21 @@
 package com.example.TP_DEV_WEB_BACK.controllers;
 
+import com.example.TP_DEV_WEB_BACK.models.*;
 import com.example.TP_DEV_WEB_BACK.models.Record;
 import com.example.TP_DEV_WEB_BACK.models.RecordItem;
 import com.example.TP_DEV_WEB_BACK.services.MusicService;
 import com.example.TP_DEV_WEB_BACK.services.NoteService;
+import com.example.TP_DEV_WEB_BACK.services.AuthService;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,10 +25,13 @@ public class test {
     MusicService musicService;
     NoteService noteService;
 
-    private test(MusicService ms, NoteService ns)
+    AuthService authService;
+
+    private test(MusicService ms, NoteService ns, AuthService as)
     {
         musicService = ms;
         noteService = ns;
+        authService = as;
     }
 
     @GetMapping("/hello")
@@ -40,16 +47,22 @@ public class test {
                 .body("Hello world !");
     }
 
-    @GetMapping("/bulbOn")
-    private String bulbOn()
-    {
-        return "On";
+    @GetMapping("/admin")
+    public ResponseEntity<String> getAdmin(Principal principal) {
+        JwtAuthenticationToken token = (JwtAuthenticationToken) principal;
+        String userName = (String) token.getTokenAttributes().get("name");
+        String userEmail = (String) token.getTokenAttributes().get("email");
+        return ResponseEntity.ok("Hello Admin \nUser Name : " + userName + "\nUser Email : " + userEmail);
     }
 
-    @GetMapping("/bulbOff")
-    private String bulbOff()
+    @GetMapping("/user")
+    public ResponseEntity<String> getUser(Principal principal)
     {
-        return "Off";
+        JwtAuthenticationToken token = (JwtAuthenticationToken) principal;
+        String userName = (String) token.getTokenAttributes().get("name");
+        String userEmail = (String) token.getTokenAttributes().get("email");
+
+        return ResponseEntity.ok("Hello User \nUser Name : " + userName + "\nUser Email : " + userEmail);
     }
     @PostMapping("/write")
     private ResponseEntity<String> write(@RequestBody Record rc)
@@ -71,10 +84,31 @@ public class test {
                 .body(response.toJSONString());
     }
 
-    @GetMapping("/getMusic")
-    private Record getMusic(@RequestParam String name)
+    @GetMapping("/getRecord")
+    private Record getRecord(@RequestParam String name)
     {
         return musicService.getByName(name);
+    }
+
+    @PostMapping("/login")
+    private ResponseEntity<String> login(@RequestBody MUser data)
+    {
+
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info(data.getLogin());
+        String token = authService.login(data.getLogin(), data.getPassword());
+        logger.info(token);
+
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        JSONObject response = new JSONObject();
+        response.put("message", "Logged");
+        response.put("Authorization", token);
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(response.toJSONString());
     }
 
     @GetMapping("/getAllRecords")

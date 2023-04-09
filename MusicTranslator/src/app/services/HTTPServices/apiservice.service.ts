@@ -11,7 +11,7 @@ import { RecordDeserializer } from '../piano/record.deserialise';
 })
 export class APIService
 {
-  apiUrl = 'http://localhost:8080/';
+  apiUrl = 'http://localhost:8081/api/';
   constructor(private http: HttpClient) { }
 
   createRecord(record: Record) : Observable<Object>
@@ -20,14 +20,13 @@ export class APIService
     const notesObj = Object.fromEntries(record.notes);
     const recordWithoutNotes = { ...record, notes: notesObj };
     const body = JSON.stringify(recordWithoutNotes);
-    const headers = { 'Content-Type': 'application/json', 'responseType':'text' };
+    const headers = { 'Content-Type': 'application/json' };
 
-    return this.http.post("http://localhost:8080/write", body, { headers });
+    return this.http.post(this.apiUrl+"write", body, { headers });
   }
 
   getRecordByName(name: string): Observable<Record> {
-  const headers = { 'responseType': 'text' };
-  return this.http.get<any>(this.apiUrl + "getMusic?name=" + name, { headers }).pipe(
+  return this.http.get<any>(this.apiUrl + "getRecord?name=" + name).pipe(
     tap(response => console.log("Response string:", response)),
     map(json => RecordDeserializer.deserialize(json))
   );
@@ -51,5 +50,16 @@ export class APIService
   deleteRecord(record: Record)
   {
 
+  }
+
+  login(username:String, password:string): Observable<{Authorization:any,message:any}>
+  {
+    console.log(username)
+    console.log(password)
+    let body = {"login" :username, "password":password}
+    
+    const headers = { 'Content-Type': 'application/json' };
+
+    return this.http.post<{Authorization: any, message: any}>(this.apiUrl + "login", body, { headers });
   }
 }

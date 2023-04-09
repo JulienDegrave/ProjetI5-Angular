@@ -1,13 +1,19 @@
 
+/* Add application styles & imports to this file!  #363636, #b82b21, #62aaa7, #f6f6f6, #f6f0e92*/ 
 .control-panel {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: var(--test);
+    background: #201b22;
+    border-radius: 15px;
+    height: 100%;
+    box-shadow: 0px 0px 30px #ececec;
   }
-
+.toKeepMdr{
+  box-shadow: #2f435e, #44566c, #ececec, #4b5e65, #201b22;
+}
   .record-btn {
     margin: 15px 0;
     width: 350px;
@@ -16,7 +22,7 @@
     padding: 5px 10px;
     color: #fff;
     font-weight: bold;
-    background-color: #007bff;
+    background-color: #4E598C;
     cursor: pointer;
   }
 
@@ -30,10 +36,12 @@
     margin: 20px 20px 0;
     margin-top: 200px;
     width: 350px;
+    color: #ececec;
     height: 50px;
     border-radius: 5px;
     border: 1px solid #ddd;
     padding: 5px;
+    background-color: #2f435e;
     font-size: 20px;
   }
   
@@ -46,7 +54,7 @@
     padding: 5px 10px;
     color: #fff;
     font-weight: bold;
-    background-color: #28a745;
+    background-color: #4E598C;
     border: none;
     cursor: pointer;
   }

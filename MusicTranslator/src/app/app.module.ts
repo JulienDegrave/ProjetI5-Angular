@@ -9,7 +9,7 @@ import { PianoOctaveComponent } from './Components/piano-octave/piano-octave.com
 import { MainComponent } from './views/main/main.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ControlPanelComponent } from './Components/control-panel/control-panel.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageBoxComponent } from './Components/control-panel/message-box/message-box.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
@@ -17,6 +17,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { SessionInterceptor } from './interceptors/auth/auth.interceptor';
+import { LoginComponent } from './views/login/login/login.component';
+import { UserService } from './services/user/user.service';
+import { SignUpComponent } from './views/sign-up/sign-up/sign-up.component';
 
 
 
@@ -29,7 +33,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MainComponent,
     ControlPanelComponent,
     MessageBoxComponent, 
-    PianoComponent
+    PianoComponent, LoginComponent, SignUpComponent
   ],
   imports: [
     AppRoutingModule,
@@ -43,7 +47,19 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     CommonModule
   ],
-  providers: [PianoPlayService],
+  providers: [
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:SessionInterceptor,
+      multi:true
+    },
+    {
+      provide:PianoPlayService
+    },
+    {
+      provide:UserService
+    }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     MessageBoxComponent

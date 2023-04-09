@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { APIService } from 'src/app/services/HTTPServices/apiservice.service';
 import { PianoPlayService } from 'src/app/services/piano/piano.play.service';
 import { RecordService } from 'src/app/services/piano/record.service';
@@ -23,7 +24,8 @@ export class ControlPanelComponent implements OnInit {
  constructor(private recordService: RecordService, 
              private pianoPlayService : PianoPlayService,
              private apiSr: APIService, 
-             private dialog: MatDialog) {}
+             private dialog: MatDialog, 
+             private authSr: AuthService) {}
 
  recordBtnClicked()
  {
@@ -80,4 +82,11 @@ export class ControlPanelComponent implements OnInit {
       this.pianoPlayService.playRecord(data);
     })
  }
+
+ proutLogout()
+ {
+  this.authSr.logout();
+ }
+
+
 }

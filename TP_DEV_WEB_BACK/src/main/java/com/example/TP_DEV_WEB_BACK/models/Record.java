@@ -58,6 +58,6 @@ public class Record {
         {
             this.notes = new HashMap<Double,RecordItem>();
         }
-        this.notes.put(time, n);
+        //this.notes.put(time, n);
     }
 }

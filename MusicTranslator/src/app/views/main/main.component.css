@@ -9,14 +9,12 @@ body {
 
 .container {
   display: flex;
-  height: 100vh;
+  height: 90vh;
 }
 
 .left-panel {
   flex: 0 0 20%;
   padding: 20px;
-  background-color: #f2f2f2;
-  border: 1px solid #3f1f1f;
   width: 500px;
 }
 
