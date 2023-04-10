@@ -1,0 +1,79 @@
+.harmonica-hole {
+    width: 13px;
+    height: 15px;
+    background-color: #000000;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    margin-top: 10px;
+  }
+
+  .harmonica-note-low-0 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    margin-top: 20px;
+  }
+
+  .harmonica-note-low-1 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    margin-top: 10px;
+  }
+
+  .harmonica-note-low-2 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    margin-top: 10px;
+  }
+
+  .harmonica-note-low-3 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    margin-top: 10px;
+  }
+
+  .harmonica-note-high-0 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    position: absolute;
+    top: 495px;
+    border-radius: 2px;
+  }
+
+  .harmonica-note-high-1 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    position: absolute;
+    top: 470px;
+  }
+
+  .harmonica-note-high-2 {
+    width: 13px;
+    height: 15px;
+    background-color: #098bac;
+    border: 1px solid #000000;
+    border-radius: 2px;
+    position: absolute;
+    top: 446px;
+  }
+  
+  .active {
+    background-color: #ADADAD;
+}
+  

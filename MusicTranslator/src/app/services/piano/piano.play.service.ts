@@ -17,7 +17,7 @@ export class PianoPlayService {
     constructor( @Inject(DOCUMENT) private document: any) {
         this.document.addEventListener('keydown', this.onKeydown.bind(this));
         this.document.addEventListener('keyup', this.onKeyup.bind(this));
-        this.initNotesKeysMaps()
+        this.initNotesKeysMapsFromKeyboardId()
     }
 
     getAssociatedPianoKey(event: KeyboardEvent):PianoKeyComponent {
@@ -60,7 +60,7 @@ export class PianoPlayService {
         if (keyToPlay) keyToPlay.onPianoKeyReleased(event);
     }
 
-    initNotesKeysMaps()
+    initNotesKeysMapsFromKeyboardId()
     {
         let keysArrayInOrder =[65,90,69,82,84,89,85,73,79,80,221,186, /* First octave */
                                81,83,68,70,71,72,74,75,76,77,192,220,  /* Second octave */
@@ -75,7 +75,7 @@ export class PianoPlayService {
 
     playRecord(record:Record)
     {
-        console.log("PLAYYYYY")
+        //console.log("PLAYYYYY")
         console.log(record)
         let max = Math.max(...record.notes.keys())
         let counter = 0.0
@@ -86,6 +86,7 @@ export class PianoPlayService {
 
             if(record.notes.has(counter / 1000)) {
                 let currentNote = record.notes.get(counter/1000);
+                //console.log("currentNote " + currentNote)
                 for(let i = 0 ; i < this.pianoKeys.length ; i++)
                 {
                     if(currentNote?.note == this.pianoKeys.at(i)?.keyName)

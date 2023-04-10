@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Record } from 'src/app/interfaces/record/record';
 import { RecordItem } from 'src/app/interfaces/record-item/record-item';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { RecordDeserializer } from '../piano/record.deserialise';
+import { AuthService } from '../auth/auth.service';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { RecordDeserializer } from '../piano/record.deserialise';
 export class APIService
 {
   apiUrl = 'http://localhost:8081/api/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authSr:AuthService) { }
 
   createRecord(record: Record) : Observable<Object>
   {
@@ -32,11 +33,20 @@ export class APIService
   );
 }
 
-  getAllRecords(): Observable<Record[]> 
-  {
-    console.log("getAllRecords")
-    return this.http.get<Record[]>(`${this.apiUrl}getAllRecords`);
-  }
+getAllRecords(): Observable<Record[]> 
+{
+  console.log("getAllRecords")
+  return this.http.get<Record[]>(`${this.apiUrl}getAllRecords`).pipe(
+    catchError((error) => {
+      if (error.status === 401) {
+        // handle 401 error here, for example redirect to login page
+        this.authSr.logout()
+        location.reload();
+      }
+      return throwError(error)
+    })
+  );
+}
 
   hello()
   {

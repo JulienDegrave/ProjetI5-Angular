@@ -39,14 +39,12 @@ export class PianoKeyComponent implements OnInit
 
   setKeyDown()
   {
-    console.log("ngAfterViewChecked")
+    //console.log("setKeyDown")
     this.noteSound = new Audio();
     this.noteSound.src = this.pianoSoundUrl;
     this.noteSound.load();
-    console.log("setKeyDown")
     if (this.noteSound)
     {
-      console.log(" in if")
       this.noteSound.play();
     } 
     this.isActive = true;

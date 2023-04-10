@@ -1,6 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialogRef } from "@angular/material/dialog";
 
 
 @Component({
@@ -11,10 +11,10 @@ import { MatDialog } from "@angular/material/dialog";
 export class MessageBoxComponent {
 
   recordName = new FormControl('');
-  constructor(){}
+  constructor(public dialogRef: MatDialogRef<MessageBoxComponent>){}
 
-  close()
+  closeBox()
   {
-    this.close()
+    
   }
 }

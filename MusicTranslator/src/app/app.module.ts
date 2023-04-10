@@ -21,6 +21,9 @@ import { SessionInterceptor } from './interceptors/auth/auth.interceptor';
 import { LoginComponent } from './views/login/login/login.component';
 import { UserService } from './services/user/user.service';
 import { SignUpComponent } from './views/sign-up/sign-up/sign-up.component';
+import {MatButtonModule} from '@angular/material/button';
+import { HarmonicaComponent } from './Components/harmonica/harmonica/harmonica.component';
+import { HarmonicaHoleComponent } from './Components/harmonica/harmonica-hole/harmonica-hole.component';
 
 
 
@@ -33,7 +36,7 @@ import { SignUpComponent } from './views/sign-up/sign-up/sign-up.component';
     MainComponent,
     ControlPanelComponent,
     MessageBoxComponent, 
-    PianoComponent, LoginComponent, SignUpComponent
+    PianoComponent, LoginComponent, SignUpComponent, HarmonicaComponent, HarmonicaHoleComponent
   ],
   imports: [
     AppRoutingModule,
@@ -45,7 +48,8 @@ import { SignUpComponent } from './views/sign-up/sign-up/sign-up.component';
     MatDialogModule,
     MatInputModule,
     BrowserAnimationsModule,
-    CommonModule
+    CommonModule,
+    MatButtonModule
   ],
   providers: [
     {

@@ -1,0 +1,37 @@
+
+
+<div  *ngIf="hasHigh2()"class="harmonica-note-high-2"
+    (mousedown)="onHolePressed($event,3)" (mouseup)="onHoleReleased($event,3)"
+    [ngClass]="[(h2isActive ? 'active' : '')]">
+</div>
+
+<div  *ngIf="hasHigh1()"class="harmonica-note-high-1"
+    (mousedown)="onHolePressed($event,2)" (mouseup)="onHoleReleased($event,2)"
+    [ngClass]="[(h1isActive ? 'active' : '')]">
+</div>
+
+<div class="harmonica-note-high-0"
+    (mousedown)="onHolePressed($event,1)" (mouseup)="onHoleReleased($event,1)"
+    [ngClass]="[(h0isActive ? 'active' : '')]">
+</div>
+
+<div class="harmonica-hole"></div>
+
+<div class="harmonica-note-low-0"
+    (mousedown)="onHolePressed($event,0)" (mouseup)="onHoleReleased($event,0)"
+    [ngClass]="[(l0isActive ? 'active' : '')]">
+</div>
+
+<div *ngIf="hasLow1()"class="harmonica-note-low-1" 
+    (mousedown)="onHolePressed($event,-1)" (mouseup)="onHoleReleased($event,-1)"
+    [ngClass]="[(l1isActive ? 'active' : '')]">
+</div>
+<div *ngIf="hasLow2()" class="harmonica-note-low-2" 
+    (mousedown)="onHolePressed($event,-2)" (mouseup)="onHoleReleased($event,-2)"
+    [ngClass]="[(l2isActive ? 'active' : '')]">
+</div>
+
+<div *ngIf="hasLow3()" class="harmonica-note-low-3"
+    (mousedown)="onHolePressed($event,-3)" (mouseup)="onHoleReleased($event,-3)"
+    [ngClass]="[(l3isActive ? 'active' : '')]">
+</div>

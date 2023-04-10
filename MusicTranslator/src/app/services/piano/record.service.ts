@@ -40,8 +40,6 @@ export class RecordService {
     // Ask user for a label
     //this.record.name = this.getRecordName();
     const obs = new Observable<Object>((observer) => {
-      const dialogRef = new MatDialogConfig() 
-      dialogRef.position = {'top':'0'}
       this.dialog.open(MessageBoxComponent, {
         width: '500px',
         height: '400px',

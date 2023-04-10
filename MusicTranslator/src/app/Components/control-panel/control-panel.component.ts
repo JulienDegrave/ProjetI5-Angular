@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { HarmonicaService } from 'src/app/services/harmonica/harmonica.service';
 import { APIService } from 'src/app/services/HTTPServices/apiservice.service';
 import { PianoPlayService } from 'src/app/services/piano/piano.play.service';
 import { RecordService } from 'src/app/services/piano/record.service';
@@ -23,6 +24,7 @@ export class ControlPanelComponent implements OnInit {
   
  constructor(private recordService: RecordService, 
              private pianoPlayService : PianoPlayService,
+             private harmonicaService :  HarmonicaService,
              private apiSr: APIService, 
              private dialog: MatDialog, 
              private authSr: AuthService) {}
@@ -54,6 +56,8 @@ export class ControlPanelComponent implements OnInit {
  refreshRecordsList()
  {
   this.apiSr.getAllRecords().subscribe(data =>{
+    
+    console.log("RESPONSE");
     if(data.length != 0)
     {
       this.selectedRecord = data[0].name;
@@ -80,12 +84,13 @@ export class ControlPanelComponent implements OnInit {
  {
     this.apiSr.getRecordByName(this.selectedRecord).subscribe(data =>{
       this.pianoPlayService.playRecord(data);
+      this.harmonicaService.playRecord(data);
     })
  }
 
  proutLogout()
  {
-  this.authSr.logout();
+  this.authSr.logout()
  }
 
 
