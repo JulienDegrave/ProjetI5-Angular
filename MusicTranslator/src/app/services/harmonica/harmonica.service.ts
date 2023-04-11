@@ -12,9 +12,14 @@ export class HarmonicaService
   harmonicaHoles:HarmonicaHoleComponent[] = [];
   holeIntervalsMap : Map<number, Array<number>>;
 
-  tonality:string ="C"
+  tonality:string ="Bb"
+  tonalityInt:number = 0// 0 = C
+  currentTonality:number = 2 // 0 = C
+  previousNoteRegistered : string = "";
+  numberOfInitiatedNotes : number = 0;
   
   notesList= ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+  notesMap : Map<string/*Tonality*/,Array<string>/*Notes*/>;
 
   
   intervalId : any;
@@ -25,13 +30,25 @@ export class HarmonicaService
   { 
     
     this.holeIntervalsMap = new Map<number, Array<number>>();
+    this.notesMap = new Map<string,Array<string>>();
     this.initHoleNotesMap();
   }
+
 
   registerHarmonicaHole(key: HarmonicaHoleComponent) 
   {
     this.harmonicaHoles.push(key);
-    key.setNodeListInterval(this.holeIntervalsMap.get(key.holeNumber))
+
+    // When all hole are registered, init notes for each one
+    if(this.harmonicaHoles.length == 10)
+    {
+      this.harmonicaHoles.forEach(hole=>{
+
+        hole.initNotes();
+        
+      })
+    }
+    //key.setNodeListInterval(this.holeIntervalsMap.get(key.holeNumber))
   }
 
   initHoleNotesMap()
@@ -57,6 +74,32 @@ export class HarmonicaService
     this.holeIntervalsMap.set(8, [28, 27, 26]);      // D - Eb - E
     this.holeIntervalsMap.set(9, [31, 30,29]);      // F - Gb - G
     this.holeIntervalsMap.set(10, [36,35,34,33]);  // A - Bb - B - C
+  }
+
+  computeNoteOctave(note:string, holeNumber:number) : string
+  {
+    let currentT = 30;
+    
+    if(this.numberOfInitiatedNotes >= 0 && this.numberOfInitiatedNotes < (12 - this.tonalityInt))
+    {
+      currentT = this.currentTonality +1;
+    }
+    else if(this.numberOfInitiatedNotes >= (12 - this.tonalityInt) && this.numberOfInitiatedNotes < (20 - this.tonalityInt))
+    {
+      currentT = this.currentTonality +2;
+    }
+    else if(this.numberOfInitiatedNotes >= (20 - this.tonalityInt) &&  this.numberOfInitiatedNotes < (31 - this.tonalityInt))
+    {
+      currentT = this.currentTonality +3;
+    }else
+    {
+      
+      currentT = this.currentTonality +4;
+    }
+
+    
+    this.numberOfInitiatedNotes = this.numberOfInitiatedNotes +1;
+    return note + currentT.toString();
   }
 
   hasLow1(harmonicaHole:number) : boolean
@@ -91,146 +134,169 @@ export class HarmonicaService
     return harmonicaHole == 10;
   }
 
-  getNoteFromInterval(holeNumber:number, int:number) : string
-  {
-      if(int == undefined) return "if(!int";
+  // getNoteFromInterval(holeNumber:number, int:number) : string
+  // {
+  //     if(int == undefined) return "if(!int";
 
-    let indexNotesArray = int % 12;
-    let octave = 1;
+  //   let indexNotesArray = int % 12;
+  //   let octave = 1;
 
-    if(int >= 12) octave = 2;
-    if(int >= 24) octave = 3;
+  //   if(int >= 12) octave = 2;
+  //   if(int >= 24) octave = 3;
 
-    let noteString = this.notesList.at(indexNotesArray);
+  //   let noteString = this.notesList.at(indexNotesArray);
 
-    if(!noteString) return "if(!noteString)";
+  //   if(!noteString) return "if(!noteString)";
 
-    octave = octave + 2
-    noteString += octave.toString()
+  //   octave = octave + 2
+  //   noteString += octave.toString()
 
-    return noteString;
-  }
+  //   return noteString;
+  // }
 
-  getNote(holeNumber:number, noteNumber:number) : string
-  {
-    let noteList = this.holeIntervalsMap.get(holeNumber);
-  
+  // getNote(holeNumber:number, noteNumber:number) : string
+  // {
+  //   let intervalList = this.holeIntervalsMap.get(holeNumber);
 
-    if(!noteList) return " if(!noteList)";
+  //   if(!intervalList) return " if(!noteList)";
 
-    if( noteNumber >= noteList.length) return "";
+  //   if( noteNumber >= intervalList.length) return "";
 
-    console.log("Note number : " + noteNumber)
-    let intervalFromMainNote = noteList.at(noteNumber);
-    console.log("Note intervalFromMainNote : " + intervalFromMainNote)
+  //   console.log("Note number : " + noteNumber)
+  //   let intervalFromMainNote = intervalList.at(noteNumber);
+  //   console.log("Note intervalFromMainNote : " + intervalFromMainNote)
 
-    if(intervalFromMainNote == undefined) return "if(!intervalFromMainNote";
+  //   if(intervalFromMainNote == undefined) return "if(!intervalFromMainNote";
 
-    let indexNotesArray = intervalFromMainNote % 12;
-    let octave = 1;
+  //   let indexNotesArray = intervalFromMainNote % 12;
+  //   let octave = 1;
 
-    if(intervalFromMainNote >= 12) octave = 2;
-    if(intervalFromMainNote >= 24) octave = 3;
+  //   if(intervalFromMainNote >= 12) octave = 2;
+  //   if(intervalFromMainNote >= 24) octave = 3;
 
-    let noteString = this.notesList.at(indexNotesArray);
+  //   let noteList = this.notesMap.get(this.tonality);
+  //   let noteString = noteList?.at(indexNotesArray);
 
-    if(!noteString) return "if(!noteString)";
+  //   if(!noteString) return "if(!noteString)";
 
-    octave = octave + 2
-    noteString += octave.toString()
+  //   octave = octave + 2
+  //   noteString += octave.toString()
 
-    return noteString;
-  }
-
-  getIndex(holeNumber:number, noteNumber:number) : string
-  {
-    return "";
-  }
+  //   return noteString;
+  // }
 
   playRecord(record:Record)
-    {
-        console.log("PLAYYYYY")
-        console.log(record)
-        let max = Math.max(...record.notes.keys())
-        let counter = 0.0
-        this.intervalId = setInterval(() => {
+  {
+    console.log("PLAYYYYY")
+    console.log(record)
+    let max = Math.max(...record.notes.keys())
+    let counter = 0.0
+    this.intervalId = setInterval(() => {
 
-            if(counter > 15000) clearInterval(this.intervalId);
+      if(counter > 15000) clearInterval(this.intervalId);
 
-            if(record.notes.has(counter / 1000)) {
-                // Retrieve note to play
-                let currentNote = record.notes.get(counter/1000);
-                console.log("currentNote : " + currentNote)
-
-                if(!currentNote) return;
-                let currentHole = this.findHoleFromNote(currentNote);
-                console.log("Current HOLE : " + currentHole);
+        if(record.notes.has(counter / 1000)) {
+          // Retrieve note to play
+          let currentNote = record.notes.get(counter/1000);
+          console.log("currentNote : " + currentNote)
+          if(!currentNote) return;
+          //let currentHole = this.findHoleFromNote(currentNote);
+          let [currentHole, currentHoleNumber] = this.findHoleFromNote2(currentNote);
+          console.log("Current HOLE : " + currentHole);
+          console.log("Current currentHoleNumber : " + currentHoleNumber);
+          currentHole?.setHoleDown(currentHoleNumber)
+          setTimeout( () => { 
+            // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
+            if(currentHoleNumber != undefined)   
+              currentHole?.setHoleUp(currentHoleNumber)
+          }, currentNote?.timeout)
 
                 // Find the hole to can produce the note
-                for(let i = 0 ; i < this.harmonicaHoles.length ; i++)
-                {
-                    if(currentHole == this.harmonicaHoles.at(i)?.holeNumber)
-                    {
-                      let currentNoteHole= this.harmonicaHoles.at(i)?.getHoleNoteFromInterval(this.currentInterval);
-                      console.log("currentNoteHole: " + currentNoteHole);
-                        // console.log(Date.now() + " |play " + currentNote?.key)
-                      if(currentNoteHole == undefined) continue;
-                      this.harmonicaHoles.at(i)?.setHoleDown(currentNoteHole)
-                      setTimeout( () => { 
-                            // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
-                        if(currentNoteHole != undefined)   
-                          this.harmonicaHoles.at(i)?.setHoleUp(currentNoteHole)
-                      }, currentNote?.timeout)
-                    }
-                }
+                // for(let i = 0 ; i < this.harmonicaHoles.length ; i++)
+                // {
+                //     if(currentHole == this.harmonicaHoles.at(i)?.holeNumber)
+                //     {
+                //       let currentNoteHole= this.harmonicaHoles.at(i)?.getHoleNoteFromInterval(this.currentInterval);
+                //       console.log("currentNoteHole: " + currentNoteHole);
+                //         // console.log(Date.now() + " |play " + currentNote?.key)
+                //       if(currentNoteHole == undefined) continue;
+                //       this.harmonicaHoles.at(i)?.setHoleDown(currentNoteHole)
+                //       setTimeout( () => { 
+                //             // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
+                //         if(currentNoteHole != undefined)   
+                //           this.harmonicaHoles.at(i)?.setHoleUp(currentNoteHole)
+                //       }, currentNote?.timeout)
+                //     }
+                // }
             }
             counter += record.timeSlot * 1000
         }, record.timeSlot*1000)
     }
 
-    findHoleFromNote(note:RecordItem) : number
+    
+    findHoleFromNote2(note:RecordItem): [HarmonicaHoleComponent | undefined, number]
     {
-      let octave = note.note.charAt(note.note.length - 1);
-      let cHole= -1;
-      for (let [key, value] of this.holeIntervalsMap) 
-      {
-        console.log(`Clé : ${key}`);
-        console.log(`octave : ${octave}`);
-        //console.log(`Valeur : ${value}`);
+      let harmonicaHoleComponent = undefined;
+      let holeNumber = 0;
 
-        if (octave == "4" && key < 4 )
+      this.harmonicaHoles.forEach(hole=>{
+        for(let [key, value] of hole.notesMap)
         {
-          continue;
-        }
-
-        if (octave == "5" && key < 7 )
-        {
-          continue;
-        }
-
-        for(let i = 0; i < value.length ; i++)
-        {
-          let interval = value.at(i)
-          if(interval == undefined) continue;
-          let indexNotesArray = interval % 12;
-          let noteString = this.notesList.at(indexNotesArray) + octave;
-          console.log(`interval : ${interval}`);
-          console.log(`noteString : ${noteString}`);
-          console.log(`note.note : ${note.note}`);
-          if(note.note == noteString)
+          if(note.note == value)
           {
-            cHole = key; 
-            this.currentInterval = i;
-            //console.log(`cHole : ${cHole}`);
-            //console.log(`currentInterval : ${this.currentInterval}`);
-          } 
-        }
+            harmonicaHoleComponent = hole;
+            holeNumber = key;
+            break;
 
-        if(cHole != -1 ) break;
+          }
+        }
+      })
+      return [harmonicaHoleComponent, holeNumber];
+    }
+
+  //   findHoleFromNote(note:RecordItem) : number
+  //   {
+  //     let octave = note.note.charAt(note.note.length - 1);
+  //     let cHole= -1;
+  //     for (let [key, value] of this.holeIntervalsMap) 
+  //     {
+  //       console.log(`Clé : ${key}`);
+  //       console.log(`octave : ${octave}`);
+  //       //console.log(`Valeur : ${value}`);
+
+  //       if (octave == "4" && key < 4 )
+  //       {
+  //         continue;
+  //       }
+
+  //       if (octave == "5" && key < 7 )
+  //       {
+  //         continue;
+  //       }
+
+  //       for(let i = 0; i < value.length ; i++)
+  //       {
+  //         let interval = value.at(i)
+  //         if(interval == undefined) continue;
+  //         let indexNotesArray = interval % 12;
+  //         let noteString = this.notesList.at(indexNotesArray) + octave;
+  //         console.log(`interval : ${interval}`);
+  //         console.log(`noteString : ${noteString}`);
+  //         console.log(`note.note : ${note.note}`);
+  //         if(note.note == noteString)
+  //         {
+  //           cHole = key; 
+  //           this.currentInterval = i;
+  //           //console.log(`cHole : ${cHole}`);
+  //           //console.log(`currentInterval : ${this.currentInterval}`);
+  //         } 
+  //       }
+
+  //       if(cHole != -1 ) break;
 
       
-    }
-    console.log(`return cHole`);
-    return cHole
-  }
+  //   }
+  //   console.log(`return cHole`);
+  //   return cHole
+  // }
 }
