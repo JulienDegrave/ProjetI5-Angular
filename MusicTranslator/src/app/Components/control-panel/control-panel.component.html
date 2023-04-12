@@ -1,9 +1,29 @@
 <div class="control-panel">
-    <button class="record-btn start-btn" (click)="recordBtnClicked()"  [ngClass]="{'disabled': isRecordStarted}">Start Record</button>
-    <button class="record-btn stop-btn" (click)="stopRecordBtnClicked()" [ngClass]="{'disabled': !isRecordStarted}">Stop Record</button>
+
+    <div class="harmonicaSubSection">
+      <h1 class="sectionTitle">Piano:</h1>
+      <button class="cp-btn start-btn" (click)="recordBtnClicked()"  [ngClass]="{'disabled': isRecordStarted}">Start Record</button>
+      <div class = "doubleButtonSection">
+        <button class="cp-btn stop-btn" (click)="stopRecordBtnClicked()" [ngClass]="{'disabled': !isRecordStarted}">Stop record</button>
+        <button class="cp-btn cancel-btn" (click)="cancelRecordBtnClicked()" [ngClass]="{'disabled': !isRecordStarted}">Cancel record</button>
+      </div>
+      
+    </div>
+
+    <div class="harmonicaSubSection">
+      <h1 class="sectionTitle">Harmonica:</h1>
+      <select class="select-dropdown"  [(ngModel)]="selectedTonality " (change)="onSelectTonality()" (wheel)="onWheelTonality($event)">
+        <option *ngFor="let option of tonalities" [value]="option">{{ option }}</option>
+      </select>
+      <label  class="checkBox">
+        Show notes on piano
+        <input type="checkbox" [(ngModel)]="isChecked" (change)="viewHarmonicaNotesInPianoKeys()">
+      </label>
+    </div>
+    <p style="color:rgb(221, 221, 221)">Record:</p>
     <select class="select-dropdown"  [(ngModel)]="selectedRecord">
       <option *ngFor="let option of recordsName" [value]="option">{{ option }}</option>
     </select>
-    <button class="play-btn" (click)="playButtonClicked()">Play</button>
-    <button class="download-btn" (click)="proutLogout()">Download</button>
+    <button class="cp-btn play-btn" (click)="playButtonClicked()">Play</button>
+    <button class="cp-btn download-btn" (click)="proutLogout()">Download</button>
 </div>

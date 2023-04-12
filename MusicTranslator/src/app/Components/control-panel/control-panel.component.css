@@ -11,13 +11,56 @@
     height: 100%;
     box-shadow: 0px 0px 30px #ececec;
   }
-.toKeepMdr{
-  box-shadow: #2f435e, #44566c, #ececec, #4b5e65, #201b22;
-}
-  .record-btn {
-    margin: 15px 0;
+  .harmonicaSubSection {
+    
+    margin-bottom: 10px;
+    padding : 10px;
+    align-items: center;
+    border-radius: 15px;
+    background: #201b22;
+    box-shadow: 0px 0px 2px #ececec;
+  }
+
+
+
+  .sectionTitle {
+    color:rgb(231, 231, 231); 
+    height: 15px;
+    font-size:22px;
+    margin-bottom:20px ;
+    line-height: 0.75em;
+    margin-top: 8px;
+  }
+
+  
+  .checkBox {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #c2c2c2;
+    font-size: 15px;
+  }
+
+  .select-dropdown {
     width: 350px;
-    height: 80px;
+    color: #ececec;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background-color: #2f435e;
+    font-size: 20px;
+  }
+  
+  .doubleButtonSection {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .cp-btn {
+    width: 350px;
+    height: 50px;
     border-radius: 5px;
     padding: 5px 10px;
     color: #fff;
@@ -26,39 +69,41 @@
     cursor: pointer;
   }
 
-  .record-btn.disabled {
-    opacity: 0.5; /* Réduire l'opacité du bouton */
-    pointer-events: none; /* Empêcher les interactions utilisateur avec le bouton */
-    cursor: not-allowed; /* Changer le curseur de la souris pour indiquer que le bouton est désactivé */
-  }
-  
-  .select-dropdown {
-    margin: 20px 20px 0;
-    margin-top: 200px;
+  .record-btn {
     width: 350px;
-    color: #ececec;
     height: 50px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    padding: 5px;
-    background-color: #2f435e;
-    font-size: 20px;
-  }
-  
-  .play-btn,
-  .download-btn {
-    margin: 20px 0;
-    width: 350px;
-    height: 80px;
     border-radius: 5px;
     padding: 5px 10px;
     color: #fff;
     font-weight: bold;
     background-color: #4E598C;
-    border: none;
     cursor: pointer;
+  }
+
+  .play-btn,
+  .download-btn {
+  }
+
+  .cp-btn.disabled {
+    opacity: 0.5; 
+    pointer-events: none;
+    cursor: not-allowed; 
+  }
+
+  .stop-btn
+  {
+    color: #fafafa;
+    width: 175px;
+    background-color: #C1D37F;
+  }
+
+  .cancel-btn
+  {
+    width: 175px;
+    background-color: #FF6F59;
   }
   
   .download-btn {
     margin-top: 10px;
   }
+

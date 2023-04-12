@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./piano.component.scss']
 })
 export class PianoComponent implements OnInit {
-  octaves = [2,3,4,5];
+  octaves = [3,4,5,6];
   constructor() { }
 
   ngOnInit() {

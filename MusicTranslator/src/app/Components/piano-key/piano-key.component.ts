@@ -18,6 +18,7 @@ export class PianoKeyComponent implements OnInit
   @Input() index: number = 0;
 
   isActive: boolean = false;
+  isPlayable : boolean = false;
   noteSound = null as any;
   startPlayTime : number = 0;
 

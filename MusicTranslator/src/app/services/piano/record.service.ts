@@ -29,6 +29,13 @@ export class RecordService {
     this.isRecording = true;
   }
 
+  cancelRecord()
+  {
+    this.isRecording = false;
+    console.log("cancelRecord !");
+    this.record.notes.clear();
+  }
+
   stopRecord() : Observable<Object>
   {
     this.isRecording = false;

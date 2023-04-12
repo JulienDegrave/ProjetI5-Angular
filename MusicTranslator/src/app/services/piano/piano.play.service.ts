@@ -20,6 +20,21 @@ export class PianoPlayService {
         this.initNotesKeysMapsFromKeyboardId()
     }
 
+    highlightKeys(keys:string[])
+    {
+        console.log("highlightKeys")
+        this.pianoKeys.forEach(pianoKey=>{
+            pianoKey.isPlayable = false;
+            keys.forEach(key=>{
+                if(key == pianoKey.keyName)
+                {
+                    pianoKey.isPlayable = true;
+                }
+            })
+        })
+
+    }
+
     getAssociatedPianoKey(event: KeyboardEvent):PianoKeyComponent {
         let keycode = event.keyCode;
         console.log("key: "+keycode)

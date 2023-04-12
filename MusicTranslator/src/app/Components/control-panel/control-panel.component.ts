@@ -16,7 +16,10 @@ export class ControlPanelComponent implements OnInit {
   
   recordsName = [""]
   selectedRecord = ""
+  tonalities = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+  selectedTonality = "C"
   isRecordStarted = false;
+  isChecked : boolean = false;
   ngOnInit(): void 
   {
     this.refreshRecordsList();
@@ -36,6 +39,20 @@ export class ControlPanelComponent implements OnInit {
   this.recordService.startRecord();
  }
 
+ viewHarmonicaNotesInPianoKeys()
+ {
+  console.log(this.isChecked);
+  if(this.isChecked)
+  {
+    let playableNotes : string[] = this.harmonicaService.getAllPlayableNotes(); 
+    // Update piano view by highlighting corresponding keys
+    this.pianoPlayService.highlightKeys(playableNotes);
+  }else{
+    this.pianoPlayService.highlightKeys([]);
+  }
+
+ }
+
  test()
  {
   console.log("Test")
@@ -53,45 +70,74 @@ export class ControlPanelComponent implements OnInit {
 
  }
 
- refreshRecordsList()
- {
-  this.apiSr.getAllRecords().subscribe(data =>{
-    
-    console.log("RESPONSE");
-    if(data.length != 0)
-    {
-      this.selectedRecord = data[0].name;
-    }
-    this.recordsName = []
-    data.forEach(value =>{
-      console.log(value.name);
-      this.recordsName.push(value.name)
+  refreshRecordsList()
+  {
+    this.apiSr.getAllRecords().subscribe(data =>{
+      
+      console.log("RESPONSE");
+      if(data.length != 0)
+      {
+        this.selectedRecord = data[0].name;
+      }
+      this.recordsName = []
+      data.forEach(value =>{
+        console.log(value.name);
+        this.recordsName.push(value.name)
+      })
     })
-  })
- }
+  }
  
- 
- stopRecordBtnClicked()
- {
-  console.log("Stops record")
-  this.isRecordStarted = false;
-  this.recordService.stopRecord().subscribe(data =>{
-    this.refreshRecordsList()
-  })
- }
+  cancelRecordBtnClicked()
+  {
+    console.log("Cancel record")
+    this.isRecordStarted = false;
+    this.recordService.cancelRecord();
 
- playButtonClicked()
- {
+  }
+
+  stopRecordBtnClicked()
+  {
+    console.log("Stops record")
+    this.isRecordStarted = false;
+    this.recordService.stopRecord().subscribe(data =>{
+      this.refreshRecordsList()
+    })
+  }
+
+  playButtonClicked()
+  {
     this.apiSr.getRecordByName(this.selectedRecord).subscribe(data =>{
       this.pianoPlayService.playRecord(data);
       this.harmonicaService.playRecord(data);
     })
- }
+  }
 
- proutLogout()
- {
-  this.authSr.logout()
- }
+  proutLogout()
+  {
+    this.authSr.logout()
+  }
 
+  onWheelTonality(event: WheelEvent) 
+  {
+    event.preventDefault(); // prevent default scrolling behavior
+    const delta = Math.sign(event.deltaY); // get scroll direction
+    const currentIndex = this.tonalities.indexOf(this.selectedTonality);
+    const newIndex = currentIndex + delta;
+    if (newIndex >= 0 && newIndex < this.tonalities.length) {
+      this.selectedTonality = this.tonalities[newIndex];
+      this.onSelectTonality()
+    }
+  }
+
+  onSelectTonality()
+  {
+    // Compute tonality for harmonicaService
+    let tonalityToInt = this.tonalities.indexOf(this.selectedTonality); 
+    // Change harmonica tonality and retrieve harmonica notes
+    let playableNotes : string[] = this.harmonicaService.changeTonality(tonalityToInt); 
+    // Update piano view by highlighting corresponding keys
+    if(this.isChecked)
+      this.pianoPlayService.highlightKeys(playableNotes);  
+  }
 
 }
