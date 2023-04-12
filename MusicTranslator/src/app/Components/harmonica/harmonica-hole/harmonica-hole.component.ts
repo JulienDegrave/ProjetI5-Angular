@@ -53,8 +53,6 @@ export class HarmonicaHoleComponent implements OnInit
   initNotes()
   {
     console.log("this.notesMap")
-    let tonality        = this.harmonicaSr.tonalityInt;
-    let notesList = this.harmonicaSr.notesList;
     let i0 :number =0;
     let i1 :number =0;
     let i2 :number =0;
@@ -67,69 +65,69 @@ export class HarmonicaHoleComponent implements OnInit
     if(this.holeNumber == 1)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber));
-      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber) );
+      this.notesMap.set(1,  this.harmonicaSr.computeNoteOctave( i0 ) ||"");
+      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( i1 ) ||"");
+      this.notesMap.set(0,  this.harmonicaSr.computeNoteOctave( i2 ) ||"");
     }
     if(this.holeNumber == 2)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
       i3 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(3) || 0;
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(-2, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i3 + tonality) % 12 ) ||"",this.holeNumber) );
+      this.notesMap.set(1,  this.harmonicaSr.computeNoteOctave( i0 ) ||"");
+      this.notesMap.set(-2, this.harmonicaSr.computeNoteOctave( i1 ) ||"" );
+      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( i2 ) ||"" );
+      this.notesMap.set(0,  this.harmonicaSr.computeNoteOctave( i3 ) ||"" );
     }
     if(this.holeNumber == 3)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
       i3 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(3) || 0;
       i4 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(4) || 0;
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(-3, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber));
-      this.notesMap.set(-2, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i3 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i4 + tonality) % 12 ) ||"",this.holeNumber) );
+      this.notesMap.set(1,  this.harmonicaSr.computeNoteOctave( i0 ) ||"");
+      this.notesMap.set(-3, this.harmonicaSr.computeNoteOctave( i1 ) ||"");
+      this.notesMap.set(-2, this.harmonicaSr.computeNoteOctave( i2 ) ||"" );
+      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( i3 ) ||"" );
+      this.notesMap.set(0,  this.harmonicaSr.computeNoteOctave( i4 ) ||"" );
     }
     if(this.holeNumber == 4)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber) );
+      this.notesMap.set(1,  this.harmonicaSr.computeNoteOctave( i0 ) ||"" );
+      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( i1 ) ||"" );
+      this.notesMap.set(0,  this.harmonicaSr.computeNoteOctave( i2 ) ||"" );
     }
     if(this.holeNumber == 5)
     {
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber) );
+      this.notesMap.set(1,  this.harmonicaSr.computeNoteOctave( i0 ) ||"");
+      this.notesMap.set(0,  this.harmonicaSr.computeNoteOctave( i1 ) ||"");
     }
     if(this.holeNumber == 6)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber) );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber) );
+      this.notesMap.set(1,  this.harmonicaSr.computeNoteOctave( i0 ) ||"" );
+      this.notesMap.set(-1, this.harmonicaSr.computeNoteOctave( i1 ) ||"" );
+      this.notesMap.set(0,  this.harmonicaSr.computeNoteOctave( i2 ) ||"");
     }
     if(this.holeNumber == 7)
     {
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber)  );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber)  );
+      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( i0 ) ||"" );
+      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( i1 ) ||"" );
     }
     if(this.holeNumber == 8 || this.holeNumber == 9)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
-      this.notesMap.set(2, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber)  );
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber)  );
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber)  );
+      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( i0 ) ||"" );
+      this.notesMap.set(2, this.harmonicaSr.computeNoteOctave( i1 ) ||"" );
+      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( i2 ) ||"" );
     }
     if(this.holeNumber == 10)
     {
       i2 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(2) || 0;
       i3 = this.harmonicaSr.holeIntervalsMap.get(this.holeNumber)?.at(3) || 0;
-      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( notesList.at( ( i3 + tonality) % 12 ) ||"",this.holeNumber)  );
-      this.notesMap.set(3, this.harmonicaSr.computeNoteOctave( notesList.at( ( i2 + tonality) % 12 ) ||"",this.holeNumber)  );
-      this.notesMap.set(2, this.harmonicaSr.computeNoteOctave( notesList.at( ( i1 + tonality) % 12 ) ||"",this.holeNumber)  );
-      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( notesList.at( ( i0 + tonality) % 12 ) ||"",this.holeNumber)  );
+      this.notesMap.set(1, this.harmonicaSr.computeNoteOctave( i0 ) ||"" );
+      this.notesMap.set(2, this.harmonicaSr.computeNoteOctave( i1 ) ||"" );
+      this.notesMap.set(3, this.harmonicaSr.computeNoteOctave( i2 ) ||"" );
+      this.notesMap.set(0, this.harmonicaSr.computeNoteOctave( i3 ) ||"" );
     }
     
     console.log(this.notesMap)

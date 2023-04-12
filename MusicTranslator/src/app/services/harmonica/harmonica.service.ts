@@ -13,14 +13,19 @@ export class HarmonicaService
   holeIntervalsMap : Map<number, Array<number>>;
 
   tonality:string ="Bb"
-  tonalityInt:number = 0// 0 = C
+  tonalityInt:number = 12// 12 = C
   currentTonality:number = 2 // 0 = C
   previousNoteRegistered : string = "";
   numberOfInitiatedNotes : number = 0;
   
-  notesList= ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
-  notesMap : Map<string/*Tonality*/,Array<string>/*Notes*/>;
+  //notesList= ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
+  notesList= ["C2", "Db2", "D2", "Eb2", "E2", "F2", "Gb2", "G2", "Ab2", "A2", "Bb2", "B2",
+              "C3", "Db3", "D3", "Eb3", "E3", "F3", "Gb3", "G3", "Ab3", "A3", "Bb3", "B3",
+              "C4", "Db4", "D4", "Eb4", "E4", "F4", "Gb4", "G4", "Ab4", "A4", "Bb4", "B4",
+              "C5", "Db5", "D5", "Eb5", "E5", "F5", "Gb5", "G5", "Ab5", "A5", "Bb5", "B5",
+              "C6", "Db6", "D6", "Eb6", "E6", "F6", "Gb6", "G6", "Ab6", "A6", "Bb6", "B6"]
 
+  notesMap : Map<string/*Tonality*/,Array<string>/*Notes*/>;
   
   intervalId : any;
   currentHole:any;
@@ -28,7 +33,6 @@ export class HarmonicaService
 
   constructor() 
   { 
-    
     this.holeIntervalsMap = new Map<number, Array<number>>();
     this.notesMap = new Map<string,Array<string>>();
     this.initHoleNotesMap();
@@ -45,6 +49,8 @@ export class HarmonicaService
       this.harmonicaHoles.forEach(hole=>{
 
         hole.initNotes();
+
+
         
       })
     }
@@ -76,30 +82,34 @@ export class HarmonicaService
     this.holeIntervalsMap.set(10, [36,35,34,33]);  // A - Bb - B - C
   }
 
-  computeNoteOctave(note:string, holeNumber:number) : string
+  computeNoteOctave(intervalfromMainNote:number) : string | undefined
   {
-    let currentT = 30;
+    console.log("Tonality : " + this.tonalityInt)
+    let currentIndex = intervalfromMainNote + this.tonalityInt;
+    console.log("Tonality : " + this.tonalityInt)
+
+    return this.notesList.at(currentIndex);
     
-    if(this.numberOfInitiatedNotes >= 0 && this.numberOfInitiatedNotes < (12 - this.tonalityInt))
-    {
-      currentT = this.currentTonality +1;
-    }
-    else if(this.numberOfInitiatedNotes >= (12 - this.tonalityInt) && this.numberOfInitiatedNotes < (20 - this.tonalityInt))
-    {
-      currentT = this.currentTonality +2;
-    }
-    else if(this.numberOfInitiatedNotes >= (20 - this.tonalityInt) &&  this.numberOfInitiatedNotes < (31 - this.tonalityInt))
-    {
-      currentT = this.currentTonality +3;
-    }else
-    {
+    // if(this.numberOfInitiatedNotes >= 0 && this.numberOfInitiatedNotes < (12 - this.tonalityInt))
+    // {
+    //   currentT = this.currentTonality +1;
+    // }
+    // else if(this.numberOfInitiatedNotes >= (12 - this.tonalityInt) && this.numberOfInitiatedNotes < (20 - this.tonalityInt))
+    // {
+    //   currentT = this.currentTonality +2;
+    // }
+    // else if(this.numberOfInitiatedNotes >= (20 - this.tonalityInt) &&  this.numberOfInitiatedNotes < (31 - this.tonalityInt))
+    // {
+    //   currentT = this.currentTonality +3;
+    // }else
+    // {
       
-      currentT = this.currentTonality +4;
-    }
+    //   currentT = this.currentTonality +4;
+    // }
 
     
-    this.numberOfInitiatedNotes = this.numberOfInitiatedNotes +1;
-    return note + currentT.toString();
+    // this.numberOfInitiatedNotes = this.numberOfInitiatedNotes +1;
+    // return note + currentT.toString();
   }
 
   hasLow1(harmonicaHole:number) : boolean
@@ -209,7 +219,7 @@ export class HarmonicaService
             // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
             if(currentHoleNumber != undefined)   
               currentHole?.setHoleUp(currentHoleNumber)
-          }, currentNote?.timeout)
+          }, 100)
 
                 // Find the hole to can produce the note
                 // for(let i = 0 ; i < this.harmonicaHoles.length ; i++)
