@@ -12,7 +12,7 @@
     box-shadow: 0px 0px 30px #ececec;
   }
   .harmonicaSubSection {
-    
+    width: 400px;
     margin-bottom: 10px;
     padding : 10px;
     align-items: center;
@@ -43,7 +43,8 @@
   }
 
   .select-dropdown {
-    width: 350px;
+    margin-bottom: 15px;
+    width: 100%;
     color: #ececec;
     height: 40px;
     border-radius: 8px;
@@ -52,11 +53,65 @@
     background-color: #2f435e;
     font-size: 20px;
   }
+
+ .recordStarted {
+    animation-duration: .8s;
+   animation-name: clignoter;
+   animation-iteration-count: infinite;
+   transition: none;
+   color: #b41313 !important;
+ }
+
+ @keyframes clignoter {
+   10%   { opacity:1; }
+   40%   {opacity:0; }
+   100% { opacity:1; }
+ }
   
   .doubleButtonSection {
     display: flex;
     flex-direction: row;
+    justify-content: center;
   }
+
+  .my-mat-btn {
+    background-color: #4E598C;
+    margin-left: 20px;
+    margin-right: 25px;
+    margin-top: 10px;
+  }
+
+  .instrument-button {
+    background-color: #4E598C;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 50px;
+    opacity: 0.8 !important; 
+    color: #fffefe !important;
+  }
+
+  .instrument-button.selected {
+    opacity: 1 !important;
+    font-size: 20px; 
+    border-radius: 5%;
+    border: 1px solid #ddd;
+    /* color: #46b805 !important; */
+  }
+
+  .instrument-button-piano {
+    height: 50px;
+  }
+
+  .instrument-button-harmo {
+    height: 50px;
+  }
+
+  .instrument-button-voix {
+    height: 50px;
+  }
+  
 
   .cp-btn {
     width: 350px;
@@ -80,8 +135,10 @@
     cursor: pointer;
   }
 
-  .play-btn,
-  .download-btn {
+  .test{
+    background: url('/MusicTranslator/src/assets/vecteezy_video-media-player-icons-vector-set-multimedia-music-audio_3756102.png') no-repeat -1732px -506px;
+    width: 237px;
+    height: 270px;
   }
 
   .cp-btn.disabled {
@@ -89,6 +146,7 @@
     pointer-events: none;
     cursor: not-allowed; 
   }
+
 
   .stop-btn
   {
@@ -107,3 +165,29 @@
     margin-top: 10px;
   }
 
+
+
+
+  /* fallback MATERIAL*/ 
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

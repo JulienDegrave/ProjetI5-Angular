@@ -1,13 +1,50 @@
+
 <div class="control-panel">
+    <div class="harmonicaSubSection">
+      <h1 class="sectionTitle">Record:</h1>
+      <div class = "doubleButtonSection">
+        <button mat-button class="instrument-button instrument-button-piano" (click)="onSelectRecordInstrumentClicked('PIANO')"  [ngClass]="{'selected': isPianoSelectedRecord}">
+          <mat-icon>piano</mat-icon>Piano
+        </button>
+        <button mat-button class="instrument-button instrument-button-harmo" (click)="onSelectRecordInstrumentClicked('HARMONICA')" [ngClass]="{'selected': isHarmoSelectedRecord}">
+          <mat-icon>wb_iridescent</mat-icon>Harmonica
+        </button>
+        <button mat-button class="instrument-button instrument-button-voix" (click)="onSelectRecordInstrumentClicked('VOICE')"  [ngClass]="{'selected': isVoiceSelectedRecord}">
+          <mat-icon>mic</mat-icon>Voix
+        </button>
+      </div>
+      <div class = "doubleButtonSection">
+        <button mat-fab  class="my-mat-btn" (click)="recordBtnClicked()"  [ngClass]="{'recordStarted': isRecordStarted}"><mat-icon>fiber_smart_record</mat-icon></button>
+        <button mat-fab class="my-mat-btn" (click)="stopRecordBtnClicked()"  [disabled]="!isRecordStarted"><mat-icon>stop</mat-icon></button>
+        <button mat-fab class="my-mat-btn" (click)="cancelRecordBtnClicked()"  [disabled]="!isRecordStarted"><mat-icon>cancel</mat-icon></button>
+      </div>
+    </div>
 
     <div class="harmonicaSubSection">
-      <h1 class="sectionTitle">Piano:</h1>
-      <button class="cp-btn start-btn" (click)="recordBtnClicked()"  [ngClass]="{'disabled': isRecordStarted}">Start Record</button>
+      <h1 class="sectionTitle">Player:</h1>
       <div class = "doubleButtonSection">
-        <button class="cp-btn stop-btn" (click)="stopRecordBtnClicked()" [ngClass]="{'disabled': !isRecordStarted}">Stop record</button>
-        <button class="cp-btn cancel-btn" (click)="cancelRecordBtnClicked()" [ngClass]="{'disabled': !isRecordStarted}">Cancel record</button>
+        <button mat-button class="instrument-button instrument-button-piano" (click)="onSelectPlayInstrumentClicked('PIANO')"  [ngClass]="{'selected': isPianoSelectedPlay}">
+          <mat-icon>piano</mat-icon>Piano
+        </button>
+        <button mat-button class="instrument-button instrument-button-harmo" (click)="onSelectPlayInstrumentClicked('HARMONICA')" [ngClass]="{'selected': isHarmoSelectedPlay}">
+          <mat-icon>wb_iridescent</mat-icon>Harmonica
+        </button>
       </div>
       
+      <select class="select-dropdown"  [(ngModel)]="selectedRecord">
+        <option *ngFor="let option of recordsName" [value]="option">{{ option }}</option>
+      </select>
+      <div class = "doubleButtonSection">
+        <button mat-fab class="my-mat-btn" (click)="playButtonClicked()">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+        <button mat-fab class="my-mat-btn" (click)="pauseButtonClicked()" >
+          <mat-icon>pause</mat-icon>
+        </button>
+        <button mat-fab class="my-mat-btn" (click)="stopPlayButtonClicked()" >
+          <mat-icon>stop</mat-icon>
+        </button>
+      </div>
     </div>
 
     <div class="harmonicaSubSection">
@@ -20,10 +57,6 @@
         <input type="checkbox" [(ngModel)]="isChecked" (change)="viewHarmonicaNotesInPianoKeys()">
       </label>
     </div>
-    <p style="color:rgb(221, 221, 221)">Record:</p>
-    <select class="select-dropdown"  [(ngModel)]="selectedRecord">
-      <option *ngFor="let option of recordsName" [value]="option">{{ option }}</option>
-    </select>
-    <button class="cp-btn play-btn" (click)="playButtonClicked()">Play</button>
-    <button class="cp-btn download-btn" (click)="proutLogout()">Download</button>
+
+
 </div>

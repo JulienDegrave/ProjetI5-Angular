@@ -6,6 +6,8 @@ import { APIService } from 'src/app/services/HTTPServices/apiservice.service';
 import { PianoPlayService } from 'src/app/services/piano/piano.play.service';
 import { RecordService } from 'src/app/services/piano/record.service';
 import { MessageBoxComponent } from './message-box/message-box.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-control-panel',
@@ -20,6 +22,14 @@ export class ControlPanelComponent implements OnInit {
   selectedTonality = "C"
   isRecordStarted = false;
   isChecked : boolean = false;
+
+  isPianoSelectedPlay : boolean = true;
+  isHarmoSelectedPlay : boolean = false;
+  isVoiceSelectedPlay : boolean = false;
+  isPianoSelectedRecord : boolean = true;
+  isHarmoSelectedRecord : boolean = false;
+  isVoiceSelectedRecord : boolean = false;
+
   ngOnInit(): void 
   {
     this.refreshRecordsList();
@@ -112,6 +122,18 @@ export class ControlPanelComponent implements OnInit {
     })
   }
 
+  stopPlayButtonClicked()
+  {
+  }
+
+  pauseButtonClicked()
+  {
+  }
+
+  downloadButtonClicked()
+  {
+  }
+
   proutLogout()
   {
     this.authSr.logout()
@@ -138,6 +160,56 @@ export class ControlPanelComponent implements OnInit {
     // Update piano view by highlighting corresponding keys
     if(this.isChecked)
       this.pianoPlayService.highlightKeys(playableNotes);  
+  }
+
+  onSelectRecordInstrumentClicked(instrument:string)
+  {
+    console.log("ENABLE " + instrument)
+    if(instrument == "PIANO")
+    {
+      this.isPianoSelectedRecord = true;
+      this.isHarmoSelectedRecord = false;
+      this.isVoiceSelectedRecord = false; 
+    }
+    else if(instrument == "HARMONICA")
+    {
+      
+      this.isPianoSelectedRecord = false;
+      this.isHarmoSelectedRecord = true;
+      this.isVoiceSelectedRecord = false; 
+    }
+    else if(instrument == "VOICE")
+    {
+      
+      this.isPianoSelectedRecord = false;
+      this.isHarmoSelectedRecord = false;
+      this.isVoiceSelectedRecord = true; 
+    }
+
+  }
+
+  onSelectPlayInstrumentClicked(instrument:string)
+  {
+    if(instrument == "PIANO")
+    {
+      this.isPianoSelectedPlay = true;
+      this.isHarmoSelectedPlay = false;
+      this.isVoiceSelectedPlay = false; 
+    }
+    else if(instrument == "HARMONICA")
+    {
+      
+      this.isPianoSelectedPlay = false;
+      this.isHarmoSelectedPlay = true;
+      this.isVoiceSelectedPlay = false; 
+    }
+    else if(instrument == "VOICE")
+    {
+      
+      this.isPianoSelectedPlay = false;
+      this.isHarmoSelectedPlay = false;
+      this.isVoiceSelectedPlay = true; 
+    }
   }
 
 }

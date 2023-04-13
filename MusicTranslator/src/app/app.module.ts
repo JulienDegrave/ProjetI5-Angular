@@ -24,6 +24,7 @@ import { SignUpComponent } from './views/sign-up/sign-up/sign-up.component';
 import {MatButtonModule} from '@angular/material/button';
 import { HarmonicaComponent } from './Components/harmonica/harmonica/harmonica.component';
 import { HarmonicaHoleComponent } from './Components/harmonica/harmonica-hole/harmonica-hole.component';
+import {MatIconModule} from '@angular/material/icon';
 
 
 
@@ -36,7 +37,11 @@ import { HarmonicaHoleComponent } from './Components/harmonica/harmonica-hole/ha
     MainComponent,
     ControlPanelComponent,
     MessageBoxComponent, 
-    PianoComponent, LoginComponent, SignUpComponent, HarmonicaComponent, HarmonicaHoleComponent
+    PianoComponent, 
+    LoginComponent, 
+    SignUpComponent, 
+    HarmonicaComponent, 
+    HarmonicaHoleComponent
   ],
   imports: [
     AppRoutingModule,
@@ -49,7 +54,8 @@ import { HarmonicaHoleComponent } from './Components/harmonica/harmonica-hole/ha
     MatInputModule,
     BrowserAnimationsModule,
     CommonModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [
     {
