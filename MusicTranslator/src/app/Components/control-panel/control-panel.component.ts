@@ -25,7 +25,6 @@ export class ControlPanelComponent implements OnInit {
 
   isPianoSelectedPlay : boolean = true;
   isHarmoSelectedPlay : boolean = false;
-  isVoiceSelectedPlay : boolean = false;
   isPianoSelectedRecord : boolean = true;
   isHarmoSelectedRecord : boolean = false;
   isVoiceSelectedRecord : boolean = false;
@@ -109,21 +108,36 @@ export class ControlPanelComponent implements OnInit {
   {
     console.log("Stops record")
     this.isRecordStarted = false;
+    this.pianoPlayService.disableKeyboardFocus();
     this.recordService.stopRecord().subscribe(data =>{
-      this.refreshRecordsList()
+      this.refreshRecordsList();
+      this.pianoPlayService.enableKeyboardFocus();
     })
   }
 
   playButtonClicked()
   {
     this.apiSr.getRecordByName(this.selectedRecord).subscribe(data =>{
-      this.pianoPlayService.playRecord(data);
-      this.harmonicaService.playRecord(data);
+      if(this.isPianoSelectedPlay)
+        this.pianoPlayService.playRecord(data);
+      if(this.isHarmoSelectedPlay)
+        this.harmonicaService.playRecord(data);
     })
+  }
+
+  deleteButtonClicked()
+  {
+    this.apiSr.deleteRecord(this.selectedRecord).subscribe(data => {
+      console.log(data);
+      this.refreshRecordsList();
+    });
   }
 
   stopPlayButtonClicked()
   {
+    console.log("SYOPPP")
+    this.pianoPlayService.stopPlay();
+    
   }
 
   pauseButtonClicked()
@@ -192,23 +206,17 @@ export class ControlPanelComponent implements OnInit {
   {
     if(instrument == "PIANO")
     {
-      this.isPianoSelectedPlay = true;
-      this.isHarmoSelectedPlay = false;
-      this.isVoiceSelectedPlay = false; 
+      this.isPianoSelectedPlay = !this.isPianoSelectedPlay;
     }
     else if(instrument == "HARMONICA")
     {
-      
-      this.isPianoSelectedPlay = false;
-      this.isHarmoSelectedPlay = true;
-      this.isVoiceSelectedPlay = false; 
+      this.isHarmoSelectedPlay = !this.isHarmoSelectedPlay;
     }
     else if(instrument == "VOICE")
     {
       
       this.isPianoSelectedPlay = false;
       this.isHarmoSelectedPlay = false;
-      this.isVoiceSelectedPlay = true; 
     }
   }
 

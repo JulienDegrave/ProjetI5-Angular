@@ -11,7 +11,9 @@ import { MatDialogRef } from "@angular/material/dialog";
 export class MessageBoxComponent {
 
   recordName = new FormControl('');
-  constructor(public dialogRef: MatDialogRef<MessageBoxComponent>){}
+  constructor(public dialogRef: MatDialogRef<MessageBoxComponent>)
+  {
+  }
 
   closeBox()
   {

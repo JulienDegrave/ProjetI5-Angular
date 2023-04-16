@@ -90,10 +90,25 @@ public class test {
         return musicService.getByName(name);
     }
 
+    @DeleteMapping("/deleteRecord")
+    private ResponseEntity<String> deleteRecord(@RequestParam String name)
+    {
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info("DELETE");
+        boolean ok = musicService.deleteRecordByName(name);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        JSONObject response = new JSONObject();
+        response.put("message", "Record deleted");
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(response.toJSONString());
+    }
+
     @PostMapping("/login")
     private ResponseEntity<String> login(@RequestBody MUser data)
     {
-
         Logger logger = (Logger) LoggerFactory.getLogger(test.class);
         logger.info(data.getLogin());
         String token = authService.login(data.getLogin(), data.getPassword());

@@ -26,13 +26,14 @@ export class HarmonicaHoleComponent implements OnInit
 
   notesMap : Map<number/*hole*/, string /*Note*/>;
   
-  noteSound = null as any;
+  noteSounds : Map<number, any> ;
   startPlayTime : number = 0;
 
   constructor(private harmonicaSr:HarmonicaService)
   {
     this.noteListIntervalMap  = new  Map<number, number>();
     this.notesMap             = new  Map<number, string>();
+    this.noteSounds           = new  Map<number, any>()
   }
 
   ngOnInit()
@@ -269,20 +270,21 @@ export class HarmonicaHoleComponent implements OnInit
 
   setHoleDown(noteNumber:number)
   {
-    console.log("setHoleDown " + noteNumber )
     this.toggleHole(noteNumber, true)
     
-    console.log("this.notesMap.get(1) " + this.notesMap.get(noteNumber) )
+    //console.log("this.notesMap.get(1) " + this.notesMap.get(noteNumber) )
     let currentNote :string = this.notesMap.get(noteNumber) || "";
     //this.currentNote = this.harmonicaSr.getNote(this.holeNumber,noteNumber -1);
-    console.log("NOTE : " + currentNote);
-    
-    this.noteSound = new Audio();
-    this.noteSound.src = this.harmonicaSoundUrl(currentNote);
-    this.noteSound.load();
-    if (this.noteSound)
+    //console.log("NOTE : " + currentNote);
+    console.log("setHoleDown " + noteNumber )
+
+    let ns = new Audio();
+    ns.src = this.harmonicaSoundUrl(currentNote);
+    ns.load();
+    if (ns)
     {
-      this.noteSound.play();
+      this.noteSounds.set(noteNumber,ns)
+      ns.play();
     }
     this.startPlayTime = Date.now();
   }
@@ -296,7 +298,13 @@ export class HarmonicaHoleComponent implements OnInit
 
   setHoleUp(noteNumber:number)
   {
+    
     this.toggleHole(noteNumber, false);
+    
+    if (this.noteSounds.has(noteNumber))
+    {
+      this.noteSounds.get(noteNumber).pause();
+    }
   }
 
   toggleHole(hole:number, state:boolean)
@@ -336,7 +344,7 @@ export class HarmonicaHoleComponent implements OnInit
   
   harmonicaSoundUrl(note:string): string 
   { 
-    return `/assets/piano-mp3/${note}.mp3` 
+    return `/assets/harmo-mp3/m_${note}.wav` 
   };  
 
 }

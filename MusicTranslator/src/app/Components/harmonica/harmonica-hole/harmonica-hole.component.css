@@ -49,7 +49,7 @@
     background-color: #098bac;
     border: 1px solid #000000;
     position: absolute;
-    top: 495px;
+    top: 485px;
     border-radius: 2px;
   }
 
@@ -60,7 +60,7 @@
     border: 1px solid #000000;
     border-radius: 2px;
     position: absolute;
-    top: 470px;
+    top: 460px;
   }
 
   .harmonica-note-high-2 {
@@ -70,7 +70,7 @@
     border: 1px solid #000000;
     border-radius: 2px;
     position: absolute;
-    top: 446px;
+    top: 436px;
   }
   
   .active {

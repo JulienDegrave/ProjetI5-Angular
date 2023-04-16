@@ -10,14 +10,31 @@ export class PianoPlayService {
     startKeycode = 49;
     endKeycode = 57;
     intervalId : any;
+    keyDownBind : any;
+    keyUpBind : any;
+    isPlaying : boolean = false;
 
     notesKeysMap : Map<number, number> = new Map<number,number>();
 
 
-    constructor( @Inject(DOCUMENT) private document: any) {
-        this.document.addEventListener('keydown', this.onKeydown.bind(this));
-        this.document.addEventListener('keyup', this.onKeyup.bind(this));
+    constructor( @Inject(DOCUMENT) private document: any) 
+    {
+        this.keyDownBind = this.onKeydown.bind(this);
+        this.keyUpBind = this.onKeyup.bind(this);
+        this.document.addEventListener('keydown', this.keyDownBind);
+        this.document.addEventListener('keyup', this.keyUpBind);
         this.initNotesKeysMapsFromKeyboardId()
+    }
+
+    disableKeyboardFocus()
+    {
+        this.document.removeEventListener('keydown',this.keyDownBind);
+        this.document.removeEventListener('keyup', this.keyUpBind);
+    }
+    enableKeyboardFocus()
+    {
+        this.document.addEventListener('keydown', this.keyDownBind);
+        this.document.addEventListener('keyup',this.keyUpBind);
     }
 
     highlightKeys(keys:string[])
@@ -94,6 +111,7 @@ export class PianoPlayService {
         console.log(record)
         let max = Math.max(...record.notes.keys())
         let counter = 0.0
+        this.isPlaying = true;
         this.intervalId = setInterval(() => {
 
             // console.log(counter / 1000)
@@ -117,5 +135,14 @@ export class PianoPlayService {
             }
             counter += record.timeSlot * 1000
         }, record.timeSlot*1000)
+    }
+
+    stopPlay()
+    {
+        console.log("SOTPPP")
+        if(this.isPlaying)
+        {
+            clearInterval(this.intervalId);
+        }
     }
 }

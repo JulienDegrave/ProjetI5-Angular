@@ -8,4 +8,6 @@ public interface MusicService
     Record getByName(String name);
 
     List<Record> getAllMusics();
+
+    boolean deleteRecordByName(String name);
 }

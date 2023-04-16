@@ -13,7 +13,7 @@ export class HarmonicaService
   harmonicaHoles:HarmonicaHoleComponent[] = [];
   holeIntervalsMap : Map<number, Array<number>>;
 
-  tonality:number = 12// 12 = C
+  tonality:number = 24// 24 = C
   currentTonality:number = 2 // 0 = C
   
   //notesList= ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
@@ -21,7 +21,8 @@ export class HarmonicaService
               "C3", "Db3", "D3", "Eb3", "E3", "F3", "Gb3", "G3", "Ab3", "A3", "Bb3", "B3",
               "C4", "Db4", "D4", "Eb4", "E4", "F4", "Gb4", "G4", "Ab4", "A4", "Bb4", "B4",
               "C5", "Db5", "D5", "Eb5", "E5", "F5", "Gb5", "G5", "Ab5", "A5", "Bb5", "B5",
-              "C6", "Db6", "D6", "Eb6", "E6", "F6", "Gb6", "G6", "Ab6", "A6", "Bb6", "B6"]
+              "C6", "Db6", "D6", "Eb6", "E6", "F6", "Gb6", "G6", "Ab6", "A6", "Bb6", "B6",
+              "C7", "Db7", "D7", "Eb7", "E7", "F7", "Gb7", "G7", "Ab7", "A7", "Bb7", "B7"]
 
   notesMap : Map<string/*Tonality*/,Array<string>/*Notes*/>;
   
@@ -38,7 +39,12 @@ export class HarmonicaService
 
   changeTonality(newTonality:number) : string[]
   {
-    this.tonality = newTonality + 12;
+    //console.log(newTonality)
+    if(newTonality < 7)
+      this.tonality = newTonality + 24;
+    else
+      this.tonality = newTonality + 12;
+
     this.harmonicaHoles.forEach(hole=>{
       hole.initNotes();        
     })
@@ -140,8 +146,8 @@ export class HarmonicaService
 
   playRecord(record:Record)
   {
-    console.log("Play")
-    console.log(record)
+    //console.log("Play")
+    //console.log(record)
     let max = Math.max(...record.notes.keys())
     let counter = 0.0
     this.intervalId = setInterval(() => {
@@ -157,6 +163,10 @@ export class HarmonicaService
           // console.log("Current HOLE : " + currentHole);
           // console.log("Current currentHoleNumber : " + currentHoleNumber);
           currentHole?.setHoleDown(currentHoleNumber)
+          let timeOut = currentNote?.timeout;
+          if(timeOut < 100) timeOut = 100;
+          if(timeOut >= 200) timeOut = 200;
+          console.log(" currentNote?.timeout : " +  timeOut);
           setTimeout( () => { 
             // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
             if(currentHoleNumber != undefined)   

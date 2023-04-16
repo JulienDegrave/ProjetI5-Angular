@@ -57,9 +57,10 @@ getAllRecords(): Observable<Record[]>
 
   }
 
-  deleteRecord(record: Record)
+  deleteRecord(record: string) : Observable<string>
   {
-
+    const headers = { 'Content-Type': 'application/json' };
+    return this.http.delete<string>(this.apiUrl+"deleteRecord?name=" + record);
   }
 
   login(username:String, password:string): Observable<{Authorization:any,message:any}>

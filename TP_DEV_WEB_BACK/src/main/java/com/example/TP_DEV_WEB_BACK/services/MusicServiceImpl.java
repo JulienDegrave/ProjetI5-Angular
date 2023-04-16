@@ -31,4 +31,11 @@ public class MusicServiceImpl implements MusicService
     public List<Record> getAllMusics() {
         return musicRepo.findAll();
     }
+
+    @Override
+    public boolean deleteRecordByName(String name)
+    {
+        musicRepo.deleteByName(name);
+        return true;
+    }
 }

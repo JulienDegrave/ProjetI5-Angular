@@ -34,7 +34,8 @@ public class WebSecurityConfig {
         http.cors().and() // add CORS configuration
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/api/getAllRecords").hasRole(USER)
-                .requestMatchers(HttpMethod.GET, "/api/getRecord").hasRole(USER)
+                .requestMatchers(HttpMethod.GET, "/api/getRecord/**").hasRole(USER)
+                .requestMatchers(HttpMethod.DELETE, "/api/deleteRecord/**").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/write").hasRole(USER)
                 .requestMatchers(HttpMethod.GET, "/api/admin").hasRole(ADMIN)
