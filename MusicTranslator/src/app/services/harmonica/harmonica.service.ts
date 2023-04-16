@@ -152,7 +152,7 @@ export class HarmonicaService
     let counter = 0.0
     this.intervalId = setInterval(() => {
 
-      if(counter > 15000) clearInterval(this.intervalId);
+      if(counter > 25000) clearInterval(this.intervalId);
 
         if(record.notes.has(counter / 1000)) {
           // Retrieve note to play
@@ -165,13 +165,12 @@ export class HarmonicaService
           currentHole?.setHoleDown(currentHoleNumber)
           let timeOut = currentNote?.timeout;
           if(timeOut < 100) timeOut = 100;
-          if(timeOut >= 200) timeOut = 200;
           console.log(" currentNote?.timeout : " +  timeOut);
           setTimeout( () => { 
             // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
             if(currentHoleNumber != undefined)   
               currentHole?.setHoleUp(currentHoleNumber)
-          }, currentNote?.timeout)
+          }, timeOut)
 
                 // Find the hole to can produce the note
                 // for(let i = 0 ; i < this.harmonicaHoles.length ; i++)

@@ -96,7 +96,7 @@ export class PianoPlayService {
     {
         let keysArrayInOrder =[65,90,69,82,84,89,85,73,79,80,221,186, /* First octave */
                                81,83,68,70,71,72,74,75,76,77,192,220,  /* Second octave */
-                               16,226,87,88,67,86,66,78,188,190,191,223];
+                               16,226,87,88,67,86,66,78,188,190,191,223,32];
         let index = 0;
 
         keysArrayInOrder.forEach(value => {
