@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/deleteRecord/**").hasRole("USER")
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/write").hasRole(USER)
+                .requestMatchers(HttpMethod.POST, "/api/computeVoiceRecord").hasRole(USER)
                 .requestMatchers(HttpMethod.GET, "/api/admin").hasRole(ADMIN)
                 .requestMatchers(HttpMethod.GET, "/api/user").hasAnyRole(ADMIN, USER)
                 .anyRequest().authenticated()

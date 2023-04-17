@@ -18,7 +18,7 @@ def generate_audio_file(notes, times, filename, duration):
     segment.export(filename, format='wav')
 
 # load audio file
-y, sr = librosa.load('harmo2.wav')
+y, sr = librosa.load('../output.wav')
 windowLength = 2048
 hop_length = 512  # change hop length to match piptrack default
 spec = librosa.stft(y,hop_length=hop_length)
@@ -97,7 +97,8 @@ def clean_note(times, notes):
             times.pop(i)
 
 
-clean_note(times, notes)
-print("Size", len(notes))
+#clean_note(times, notes)
+for time, note in zip(times, notes):
+        print(time, note)
 generate_audio_file(notes,times, "test_gen_4.wav", duration=len(y)/sr )
 

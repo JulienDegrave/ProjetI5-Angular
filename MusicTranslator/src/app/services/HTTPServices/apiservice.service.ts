@@ -57,6 +57,13 @@ getAllRecords(): Observable<Record[]>
 
   }
 
+  computeVoiceRecord(data: FormData) : Observable<any>
+  {      
+    console.log('computeVoiceRecord');
+
+    return this.http.post(this.apiUrl+"computeVoiceRecord", data);
+  }
+
   deleteRecord(record: string) : Observable<string>
   {
     const headers = { 'Content-Type': 'application/json' };

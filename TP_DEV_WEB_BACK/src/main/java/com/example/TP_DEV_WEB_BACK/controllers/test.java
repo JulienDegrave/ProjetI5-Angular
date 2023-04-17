@@ -10,11 +10,18 @@ import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.sampled.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.List;
 
@@ -63,6 +70,34 @@ public class test {
         String userEmail = (String) token.getTokenAttributes().get("email");
 
         return ResponseEntity.ok("Hello User \nUser Name : " + userName + "\nUser Email : " + userEmail);
+    }
+
+    @PostMapping("/computeVoiceRecord")
+    private ResponseEntity<String> computeVoiceRecord(@RequestParam("file") MultipartFile file)
+    {
+        Logger logger = (Logger) LoggerFactory.getLogger(test.class);
+        logger.info("computeVoiceRecord");
+        try {
+            logger.info("Try ok");
+            // Get the bytes of the uploaded file
+            byte[] bytes = file.getBytes();
+
+            // Create an MP3 file using bytes
+            InputStream inputStream = new ByteArrayInputStream(bytes);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
+            File outputFile = new File("output.wav");
+            AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, outputFile);
+
+            JSONObject response = new JSONObject();
+            response.put("message", "Record received, computing it...");
+            // Return a success response
+            return ResponseEntity.ok().body(response.toJSONString());
+        } catch (IOException e) {
+            // Return an error response if there was an error processing the file
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file: " + e.getMessage());
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        }
     }
     @PostMapping("/write")
     private ResponseEntity<String> write(@RequestBody Record rc)

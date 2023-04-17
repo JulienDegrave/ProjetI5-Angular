@@ -35,14 +35,13 @@ export class RecordService {
     console.log("cancelRecord !");
     this.record.notes.clear();
   }
-
+  
   stopRecord() : Observable<Object>
   {
     this.isRecording = false;
 
     console.log("Record stopped !")
     console.log(this.record)
-    // this.pianoSr.playRecord(this.record)
 
     // Ask user for a label
     //this.record.name = this.getRecordName();
@@ -67,8 +66,6 @@ export class RecordService {
 
     })
     return obs;
-    return this.apiSr.createRecord(this.record);
-    //this.pianoSr.playRecord(this.record);
   }
 
 

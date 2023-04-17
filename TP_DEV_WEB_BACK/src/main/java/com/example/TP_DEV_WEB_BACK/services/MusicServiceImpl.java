@@ -28,7 +28,8 @@ public class MusicServiceImpl implements MusicService
     }
 
     @Override
-    public List<Record> getAllMusics() {
+    public List<Record> getAllMusics()
+    {
         return musicRepo.findAll();
     }
 

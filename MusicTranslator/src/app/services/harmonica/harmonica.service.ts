@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ControlPanelComponent } from 'src/app/Components/control-panel/control-panel.component';
 import { HarmonicaHoleComponent } from 'src/app/Components/harmonica/harmonica-hole/harmonica-hole.component';
 import { RecordItem } from 'src/app/interfaces/record-item/record-item';
 import { Record } from 'src/app/interfaces/record/record';
@@ -27,7 +28,6 @@ export class HarmonicaService
   notesMap : Map<string/*Tonality*/,Array<string>/*Notes*/>;
   
   intervalId : any;
-  currentHole:any;
   currentInterval:any;
 
   constructor() 
@@ -144,18 +144,25 @@ export class HarmonicaService
     return harmonicaHole == 10;
   }
 
-  playRecord(record:Record)
+  playRecord(record:Record, parent: ControlPanelComponent)
   {
-    //console.log("Play")
+    console.log("Play")
     //console.log(record)
     let max = Math.max(...record.notes.keys())
+    let nbOfNotesPlayed = 0;
     let counter = 0.0
     this.intervalId = setInterval(() => {
 
-      if(counter > 25000) clearInterval(this.intervalId);
+        if(counter > 25000 ||nbOfNotesPlayed >= record.notes.size)
+        {
+          console.log("SToP PLAY")
+          this.stopPlay();
+          parent.isPlayingStarted = false;
+        } 
 
         if(record.notes.has(counter / 1000)) {
           // Retrieve note to play
+          nbOfNotesPlayed++;
           let currentNote = record.notes.get(counter/1000);
           if(!currentNote) return;
           //let currentHole = this.findHoleFromNote(currentNote);
@@ -171,29 +178,14 @@ export class HarmonicaService
             if(currentHoleNumber != undefined)   
               currentHole?.setHoleUp(currentHoleNumber)
           }, timeOut)
-
-                // Find the hole to can produce the note
-                // for(let i = 0 ; i < this.harmonicaHoles.length ; i++)
-                // {
-                //     if(currentHole == this.harmonicaHoles.at(i)?.holeNumber)
-                //     {
-                //       let currentNoteHole= this.harmonicaHoles.at(i)?.getHoleNoteFromInterval(this.currentInterval);
-                //       console.log("currentNoteHole: " + currentNoteHole);
-                //         // console.log(Date.now() + " |play " + currentNote?.key)
-                //       if(currentNoteHole == undefined) continue;
-                //       this.harmonicaHoles.at(i)?.setHoleDown(currentNoteHole)
-                //       setTimeout( () => { 
-                //             // console.log(Date.now() + " |setKeyUp " + currentNote?.key + " TIMOUT " +currentNote?.timeout )
-                //         if(currentNoteHole != undefined)   
-                //           this.harmonicaHoles.at(i)?.setHoleUp(currentNoteHole)
-                //       }, currentNote?.timeout)
-                //     }
-                // }
-            }
+        }
             counter += record.timeSlot * 1000
-        }, record.timeSlot*1000)
+      }, record.timeSlot*1000)
+    }
 
-
+    stopPlay()
+    {
+      clearInterval(this.intervalId);
     }
 
     

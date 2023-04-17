@@ -8,12 +8,16 @@ import { RecordService } from 'src/app/services/piano/record.service';
 import { MessageBoxComponent } from './message-box/message-box.component';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import * as RecordRTC from 'recordrtc';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-control-panel',
   templateUrl: './control-panel.component.html',
   styleUrls: ['./control-panel.component.css'],
 })
+
 export class ControlPanelComponent implements OnInit {
   
   recordsName = [""]
@@ -21,7 +25,12 @@ export class ControlPanelComponent implements OnInit {
   tonalities = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
   selectedTonality = "C"
   isRecordStarted = false;
+  isPlayingStarted = false;
   isChecked : boolean = false;
+
+  voiceRecord: any;
+  voiceRecordStream : any;
+  recordedChunks: any[] = [];
 
   isPianoSelectedPlay : boolean = true;
   isHarmoSelectedPlay : boolean = false;
@@ -39,13 +48,85 @@ export class ControlPanelComponent implements OnInit {
              private harmonicaService :  HarmonicaService,
              private apiSr: APIService, 
              private dialog: MatDialog, 
-             private authSr: AuthService) {}
+             private authSr: AuthService,
+             private domSanitizer: DomSanitizer) {}
+
+             
+ sanitize(url: string) {
+  return this.domSanitizer.bypassSecurityTrustUrl(url);
+ }
 
  recordBtnClicked()
  {
   console.log("Start record")
   this.isRecordStarted = true;
-  this.recordService.startRecord();
+  if(this.isPianoSelectedRecord)
+    this.recordService.startRecord();
+  //else if(this.isHarmoSelectedRecord)
+    //this.harmonicaService.startRecord();
+  else if(this.isVoiceSelectedRecord)
+    navigator.mediaDevices.getUserMedia({audio : true}).then(s=>{
+      this.voiceRecordStream = s;
+      this.startVoiceRecord(s);
+    });
+
+ }
+
+ startVoiceRecord(stream:MediaStream)
+ {
+  console.log("START VOICE RECORD");
+
+  //Start Actuall Recording
+  let StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
+  this.voiceRecord = new StereoAudioRecorder(stream, {mimeType:"audio/wav",sampleRate: 44100});
+  this.voiceRecord.record();
+
+ }
+
+ stopVoiceRecord(blob : Blob )
+ {
+  console.log("STOP VOICE RECORD");
+  
+  let url = URL.createObjectURL(blob);
+  
+  // Create a new FormData object
+  let formData = new FormData();
+  // Append the recorded audio file to the FormData object
+
+  // const a = document.createElement("a");
+  // document.body.appendChild(a);
+  // a.style.display = "none";
+  // a.href = url;
+  // a.download = "recording.mp3";
+  // a.click();
+  URL.revokeObjectURL(url);
+
+  this.voiceRecordStream.getAudioTracks().forEach((track: { stop: () => any; }) => track.stop());
+  this.voiceRecord.stop();
+
+  this.voiceRecordStream = null;
+
+
+  this.pianoPlayService.disableKeyboardFocus();
+  this.dialog.open(MessageBoxComponent, {
+      width: '500px',
+      height: '400px',
+      autoFocus: true
+    }).afterClosed().subscribe(t=>{
+      let rName = t.value;
+    
+      formData.append("file", blob, rName + ".wav");
+      console.log('The dialog was closed');
+      console.log(t.value);
+      this.pianoPlayService.enableKeyboardFocus();
+      // Send record to the back end
+      this.apiSr.computeVoiceRecord(formData).subscribe(data=>{
+        console.log("ANSWER" + data);
+      });
+
+    });
+
+
  }
 
  viewHarmonicaNotesInPianoKeys()
@@ -64,19 +145,6 @@ export class ControlPanelComponent implements OnInit {
 
  test()
  {
-  console.log("Test")
-  const dialogRef = new MatDialogConfig() 
-  dialogRef.position = {'top':'0'}
-  this.dialog.open(MessageBoxComponent, {
-    width: '500px',
-    height: '400px',
-    autoFocus: true
-  }).afterClosed().subscribe(t=>{
-
-    console.log('The dialog was closed');
-    console.log(t.value);
-  });
-
  }
 
   refreshRecordsList()
@@ -102,26 +170,40 @@ export class ControlPanelComponent implements OnInit {
     this.isRecordStarted = false;
     this.recordService.cancelRecord();
 
+    if(this.voiceRecordStream != null)
+    {
+      this.voiceRecordStream.getAudioTracks().forEach((track: { stop: () => any; }) => track.stop());
+      this.voiceRecord.stop();
+    }
   }
 
   stopRecordBtnClicked()
   {
     console.log("Stops record")
     this.isRecordStarted = false;
-    this.pianoPlayService.disableKeyboardFocus();
-    this.recordService.stopRecord().subscribe(data =>{
-      this.refreshRecordsList();
-      this.pianoPlayService.enableKeyboardFocus();
-    })
+    if(this.isPianoSelectedRecord)
+    {
+      this.pianoPlayService.disableKeyboardFocus();
+      this.recordService.stopRecord().subscribe(data =>{
+        this.refreshRecordsList();
+        this.pianoPlayService.enableKeyboardFocus();
+      })
+    }
+    else if(this.isVoiceSelectedRecord)
+      this.voiceRecord.stop(this.stopVoiceRecord.bind(this));
+    
   }
 
   playButtonClicked()
   {
     this.apiSr.getRecordByName(this.selectedRecord).subscribe(data =>{
+      console.log("DATA");
+      console.log(data);
       if(this.isPianoSelectedPlay)
-        this.pianoPlayService.playRecord(data);
+        this.pianoPlayService.playRecord(data, this);
       if(this.isHarmoSelectedPlay)
-        this.harmonicaService.playRecord(data);
+        this.harmonicaService.playRecord(data, this);
+        this.isPlayingStarted = true;
     })
   }
 
@@ -137,6 +219,8 @@ export class ControlPanelComponent implements OnInit {
   {
     console.log("SYOPPP")
     this.pianoPlayService.stopPlay();
+    this.harmonicaService.stopPlay();
+    this.isPlayingStarted = false;
     
   }
 
@@ -146,11 +230,6 @@ export class ControlPanelComponent implements OnInit {
 
   downloadButtonClicked()
   {
-  }
-
-  proutLogout()
-  {
-    this.authSr.logout()
   }
 
   onWheelTonality(event: WheelEvent) 

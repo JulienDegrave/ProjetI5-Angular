@@ -141,11 +141,12 @@
     height: 270px;
   }
 
-  .cp-btn.disabled {
+  .my-mat-btn.disabled {
     opacity: 0.5; 
     pointer-events: none;
     cursor: not-allowed; 
   }
+
 
 
   .stop-btn

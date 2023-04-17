@@ -2,6 +2,8 @@ import { PianoKeyComponent } from '../../Components/piano-key/piano-key.componen
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common'; 
 import { Record } from '../../interfaces/record/record';
+import { Observable } from 'rxjs';
+import { ControlPanelComponent } from 'src/app/Components/control-panel/control-panel.component';
  
 @Injectable()
 export class PianoPlayService { 
@@ -105,20 +107,26 @@ export class PianoPlayService {
         })
     }
 
-    playRecord(record:Record)
+    playRecord(record:Record, parent: ControlPanelComponent) 
     {
         //console.log("PLAYYYYY")
         console.log(record)
-        let max = Math.max(...record.notes.keys())
+        let nbOfNotesPlayed = 0;
         let counter = 0.0
         this.isPlaying = true;
         this.intervalId = setInterval(() => {
 
             // console.log(counter / 1000)
-            if(counter > 15000) clearInterval(this.intervalId);
+            if(counter > 25000 ||nbOfNotesPlayed >= record.notes.size)
+            {
+                this.stopPlay();
+                parent.isPlayingStarted = false;
+            } 
 
+            console.log("INTERVAL")
             if(record.notes.has(counter / 1000)) {
                 let currentNote = record.notes.get(counter/1000);
+                nbOfNotesPlayed++;
                 //console.log("currentNote " + currentNote)
                 for(let i = 0 ; i < this.pianoKeys.length ; i++)
                 {
@@ -135,6 +143,7 @@ export class PianoPlayService {
             }
             counter += record.timeSlot * 1000
         }, record.timeSlot*1000)
+        
     }
 
     stopPlay()

@@ -27,7 +27,11 @@
 }
 
 .playable {
-    background-color: #b4b0f1;
+    background-color: #cdcaf5;
+}
+
+.playable.active {
+    background-color: #ADADAD;
 }
 
 .piano-key-label {
