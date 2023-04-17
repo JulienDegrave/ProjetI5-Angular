@@ -6,6 +6,8 @@ import com.example.TP_DEV_WEB_BACK.models.RecordItem;
 import com.example.TP_DEV_WEB_BACK.services.MusicService;
 import com.example.TP_DEV_WEB_BACK.services.NoteService;
 import com.example.TP_DEV_WEB_BACK.services.AuthService;
+import com.example.TP_DEV_WEB_BACK.services.VoiceAnalyzerService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +33,15 @@ public class test {
 
     MusicService musicService;
     NoteService noteService;
-
     AuthService authService;
+    VoiceAnalyzerService voiceAnalyzerService;
 
-    private test(MusicService ms, NoteService ns, AuthService as)
+    private test(MusicService ms, NoteService ns, AuthService as, VoiceAnalyzerService vs)
     {
         musicService = ms;
         noteService = ns;
         authService = as;
+        voiceAnalyzerService = vs;
     }
 
     @GetMapping("/hello")
@@ -73,7 +76,7 @@ public class test {
     }
 
     @PostMapping("/computeVoiceRecord")
-    private ResponseEntity<String> computeVoiceRecord(@RequestParam("file") MultipartFile file)
+    private Record computeVoiceRecord(@RequestParam("file") MultipartFile file)
     {
         Logger logger = (Logger) LoggerFactory.getLogger(test.class);
         logger.info("computeVoiceRecord");
@@ -87,14 +90,15 @@ public class test {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
             File outputFile = new File("output.wav");
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, outputFile);
+            Record record = voiceAnalyzerService.analyzeAudioFile("../output.wav");
 
-            JSONObject response = new JSONObject();
-            response.put("message", "Record received, computing it...");
-            // Return a success response
-            return ResponseEntity.ok().body(response.toJSONString());
-        } catch (IOException e) {
+            //musicService.save(record);
+            return record;
+
+        } catch (IOException e)
+        {
             // Return an error response if there was an error processing the file
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file: " + e.getMessage());
+            return null;
         } catch (UnsupportedAudioFileException e) {
             throw new RuntimeException(e);
         }

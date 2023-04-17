@@ -26,12 +26,6 @@ export class APIService
     return this.http.post(this.apiUrl+"write", body, { headers });
   }
 
-  getRecordByName(name: string): Observable<Record> {
-  return this.http.get<any>(this.apiUrl + "getRecord?name=" + name).pipe(
-    tap(response => console.log("Response string:", response)),
-    map(json => RecordDeserializer.deserialize(json))
-  );
-}
 
 getAllRecords(): Observable<Record[]> 
 {
@@ -57,12 +51,23 @@ getAllRecords(): Observable<Record[]>
 
   }
 
-  computeVoiceRecord(data: FormData) : Observable<any>
+  computeVoiceRecord(data: FormData) : Observable<Record>
   {      
     console.log('computeVoiceRecord');
 
-    return this.http.post(this.apiUrl+"computeVoiceRecord", data);
+    return this.http.post<any>(this.apiUrl+"computeVoiceRecord", data).pipe(
+      tap(response => console.log("Response string:", response)),
+      map(json => RecordDeserializer.deserialize(json))
+    );
   }
+
+  getRecordByName(name: string): Observable<Record> 
+  {
+  return this.http.get<any>(this.apiUrl + "getRecord?name=" + name).pipe(
+    tap(response => console.log("Response string:", response)),
+    map(json => RecordDeserializer.deserialize(json))
+  );
+}
 
   deleteRecord(record: string) : Observable<string>
   {

@@ -78,7 +78,7 @@ export class ControlPanelComponent implements OnInit {
 
   //Start Actuall Recording
   let StereoAudioRecorder = RecordRTC.StereoAudioRecorder;
-  this.voiceRecord = new StereoAudioRecorder(stream, {mimeType:"audio/wav",sampleRate: 44100});
+  this.voiceRecord = new StereoAudioRecorder(stream, {mimeType:"audio/wav",sampleRate: 48000 , bitsPerSecond:128000,audioBitsPerSecond: 128000});
   this.voiceRecord.record();
 
  }
@@ -93,12 +93,12 @@ export class ControlPanelComponent implements OnInit {
   let formData = new FormData();
   // Append the recorded audio file to the FormData object
 
-  // const a = document.createElement("a");
-  // document.body.appendChild(a);
-  // a.style.display = "none";
-  // a.href = url;
-  // a.download = "recording.mp3";
-  // a.click();
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style.display = "none";
+  a.href = url;
+  a.download = "recording.mp3";
+  a.click();
   URL.revokeObjectURL(url);
 
   this.voiceRecordStream.getAudioTracks().forEach((track: { stop: () => any; }) => track.stop());
@@ -121,7 +121,12 @@ export class ControlPanelComponent implements OnInit {
       this.pianoPlayService.enableKeyboardFocus();
       // Send record to the back end
       this.apiSr.computeVoiceRecord(formData).subscribe(data=>{
-        console.log("ANSWER" + data);
+        console.log("Record received ! " + data.name);
+        data.name =rName; 
+        this.apiSr.createRecord(data).subscribe(res =>{
+          this.refreshRecordsList();
+          this.selectedRecord = data.name;
+        });
       });
 
     });

@@ -23,10 +23,15 @@
 
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+import json
+
+from analyzer import *
 
 app = FastAPI()
 
 
-@app.get("/items/")
+@app.get("/record_analyzer/analyze/")
 async def read_item(url: str = ""):
-    return {"url": url}
+    json_data  = analyzeAudioFile(url)
+    return JSONResponse(content=json.loads(json_data))
