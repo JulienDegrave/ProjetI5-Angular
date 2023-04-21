@@ -278,6 +278,7 @@ export class HarmonicaHoleComponent implements OnInit
     //console.log("NOTE : " + currentNote);
     console.log("setHoleDown " + noteNumber )
 
+
     let ns = new Audio();
     ns.src = this.harmonicaSoundUrl(currentNote);
     ns.load();

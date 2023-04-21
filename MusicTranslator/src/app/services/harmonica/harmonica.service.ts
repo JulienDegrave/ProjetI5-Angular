@@ -35,6 +35,8 @@ export class HarmonicaService
     this.holeIntervalsMap = new Map<number, Array<number>>();
     this.notesMap = new Map<string,Array<string>>();
     this.initHoleNotesMap();
+
+    
   }
 
   changeTonality(newTonality:number) : string[]
@@ -64,22 +66,10 @@ export class HarmonicaService
         hole.initNotes();        
       })
     }
-    //key.setNodeListInterval(this.holeIntervalsMap.get(key.holeNumber))
   }
 
   initHoleNotesMap()
   {
-    // this.holeIntervalsMap.set(1, [0, 1, 1]);      // C - Db - D             X Eb X
-    // this.holeIntervalsMap.set(2, [2, 1, 1, 1]);   // E - F - Gb - G 
-    // this.holeIntervalsMap.set(3, [0, 1, 1, 1, 1]);// G - Ab - A - Bb - B
-    // this.holeIntervalsMap.set(4, [1, 1, 1]);      // C - Db - D
-    // this.holeIntervalsMap.set(5, [2, 1]);         // E - F                  X Eb X
-    // this.holeIntervalsMap.set(6, [2, 1, 1]);      // G - Ab - A
-    // this.holeIntervalsMap.set(7, [2, 1]);         // B - C
-    // this.holeIntervalsMap.set(8, [2, 1, 1]);      // D - Eb - E
-    // this.holeIntervalsMap.set(9, [1, 1, 1]);      // F - Gb - G
-    // this.holeIntervalsMap.set(10, [1, 1, 1, 1]);  // A - Bb - B - C
-
     this.holeIntervalsMap.set(1, [0, 1, 2]);      // C - Db - D             X Eb X
     this.holeIntervalsMap.set(2, [4, 5, 6, 7]);   // E - F - Gb - G 
     this.holeIntervalsMap.set(3, [7, 8, 9, 10, 11]);// G - Ab - A - Bb - B
@@ -209,3 +199,5 @@ export class HarmonicaService
       return [harmonicaHoleComponent, holeNumber];
     }
 }
+
+

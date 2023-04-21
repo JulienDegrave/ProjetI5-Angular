@@ -24,7 +24,7 @@
 
 
   .sectionTitle {
-    color:rgb(231, 231, 231); 
+    color:inherit; 
     height: 15px;
     font-size:22px;
     margin-bottom:20px ;
@@ -38,14 +38,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    color: #c2c2c2;
+    color:inherit;
     font-size: 15px;
   }
 
   .select-dropdown {
     margin-bottom: 15px;
     width: 100%;
-    color: #ececec;
+    color: inherit;
     height: 40px;
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -89,7 +89,7 @@
     width: 100%;
     height: 50px;
     opacity: 0.8 !important; 
-    color: #fffefe !important;
+    color: inherit !important;
   }
 
   .instrument-button.selected {
@@ -118,7 +118,7 @@
     height: 50px;
     border-radius: 5px;
     padding: 5px 10px;
-    color: #fff;
+    color: inherit;
     font-weight: bold;
     background-color: #4E598C;
     cursor: pointer;
@@ -129,7 +129,7 @@
     height: 50px;
     border-radius: 5px;
     padding: 5px 10px;
-    color: #fff;
+    color: inherit;
     font-weight: bold;
     background-color: #4E598C;
     cursor: pointer;
@@ -151,7 +151,7 @@
 
   .stop-btn
   {
-    color: #fafafa;
+    color:inherit;
     width: 175px;
     background-color: #C1D37F;
   }

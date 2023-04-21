@@ -5,7 +5,16 @@ body{
     overflow-x: hidden;
     overflow-y: hidden;
   height: 100% ;
-  background-color: #020202 !important;
+  background-color: #1b212c !important;
+  background: #1b212c; 
+  color: #fff;
+}
+
+body.dark-mode {
+
+    background-color: #000000 !important;
+    color: #333333;
+    background: #c31432; 
 }
 .control-pa{
     box-shadow: #2f435e, #44566c, #ececec, #4b5e65, #201b22;
@@ -24,7 +33,7 @@ label{
 }  
 .btn-my{
     background-color: #4E598C;
-    color: #fff;
+    color: inherit;
 }
 .text-right.forget-pass a{
     font-size: 12px;

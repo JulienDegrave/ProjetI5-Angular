@@ -19,6 +19,7 @@ export class PianoKeyComponent implements OnInit
 
   isActive: boolean = false;
   isPlayable : boolean = false;
+  isDark : boolean = false;
   noteSound = null as any;
   startPlayTime : number = 0;
 
@@ -38,8 +39,16 @@ export class PianoKeyComponent implements OnInit
     this.setKeyDown();
   }
 
+  setDark(d : boolean)
+  {
+    this.isDark = d;
+  }
+
   setKeyDown()
   {
+    
+    //Troll val
+    this.pianoService.trollVal_notePlayed(this.keyName);
     //console.log("setKeyDown")
     this.noteSound = new Audio();
     this.noteSound.src = this.pianoSoundUrl;

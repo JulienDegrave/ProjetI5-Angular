@@ -1,0 +1,6 @@
+#FileLock
+#Thu Apr 20 23:23:27 CEST 2023
+hostName=PC_fixe
+id=187a08cfd265db043754e5e910f0a112157bb8a0692
+method=file
+server=192.168.0.10\:57803

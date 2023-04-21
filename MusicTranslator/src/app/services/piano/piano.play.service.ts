@@ -1,9 +1,10 @@
 import { PianoKeyComponent } from '../../Components/piano-key/piano-key.component';
-import { Inject, Injectable } from '@angular/core';
+import { ElementRef, Inject, Injectable, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common'; 
 import { Record } from '../../interfaces/record/record';
 import { Observable } from 'rxjs';
 import { ControlPanelComponent } from 'src/app/Components/control-panel/control-panel.component';
+import { DarkModeService } from 'angular-dark-mode';
  
 @Injectable()
 export class PianoPlayService { 
@@ -15,11 +16,12 @@ export class PianoPlayService {
     keyDownBind : any;
     keyUpBind : any;
     isPlaying : boolean = false;
+    isDark : boolean = false;
 
     notesKeysMap : Map<number, number> = new Map<number,number>();
 
 
-    constructor( @Inject(DOCUMENT) private document: any) 
+    constructor( @Inject(DOCUMENT) private document: any,private darkModeService: DarkModeService) 
     {
         this.keyDownBind = this.onKeydown.bind(this);
         this.keyUpBind = this.onKeyup.bind(this);
@@ -152,6 +154,28 @@ export class PianoPlayService {
         if(this.isPlaying)
         {
             clearInterval(this.intervalId);
+        }
+    }
+    
+
+
+    trollVal_notesArray = ["D3","F3","G3","A3", "D3","F3","G3","A3"];
+    trollVal_cnotesArray = ["0","0","0","0", "0","0","0","0"];
+
+    trollVal_notePlayed(note:string)
+    {
+        this.trollVal_cnotesArray.shift();
+        this.trollVal_cnotesArray.push(note);
+
+        if(JSON.stringify(this.trollVal_notesArray) == JSON.stringify(this.trollVal_cnotesArray))
+        {
+           // this.renderer.setStyle(this.el.nativeElement.ownerDocument.body,'backgroundColor', '');
+           this.isDark = !this.isDark;
+           this.darkModeService.toggle();
+           console.log("TOGGLE")
+           this.pianoKeys.forEach(key =>{
+            key.setDark(this.isDark);
+           })
         }
     }
 }

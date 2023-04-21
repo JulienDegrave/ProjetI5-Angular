@@ -7,6 +7,10 @@
     border-radius: 5px;
 }
 
+.piano-key.dark {
+    background-color: #3f3f3f;
+}
+
 .piano-key-sharp {
     width: 28px;
     height: 60%;
@@ -16,6 +20,10 @@
     margin-top: -5px;
     z-index: 9999;
     position: relative;
+}
+
+.piano-key-sharp.dark {
+    background-color: #000;
 }
 
 .active {
