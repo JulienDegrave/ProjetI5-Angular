@@ -70,10 +70,10 @@ export class PianoPlayService {
             return null as any;
         }
 
-        if(index < this.pianoKeys.length)
+        if(index +12 < this.pianoKeys.length)
         {
             console.log(" index OK")
-            return this.pianoKeys[index];
+            return this.pianoKeys[index +12];
         }
         
         return null as any;
